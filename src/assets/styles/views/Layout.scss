@@ -1,0 +1,11 @@
+.common-layout {
+    height: 100%;
+    :deep(.el-main) {
+        padding: 0px;
+        margin: 0px;
+    }
+
+    :deep(.el-container){
+        height: 100%;
+    }
+}

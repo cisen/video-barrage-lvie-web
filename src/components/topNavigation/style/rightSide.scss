@@ -1,0 +1,65 @@
+.info {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .avatar {
+        margin-right: 30px;
+    }
+
+    .icon-list {
+       padding-right: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .icon-item {
+            text-align: center;
+            font-size: 12px;
+            margin-left: 12px;
+            margin-right: 12px;
+            .icon {
+                width: 21px;
+                height: 20px;
+                color: #18191C;
+                margin: 0 0 0 0px;
+            }
+
+            p {
+                color: #61666D;
+                padding: 0;
+                margin: 0;
+            }
+        }
+    }
+
+
+    .dialog {
+        .steps {
+
+            padding-top: 30px;
+
+            .steps-left {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                p {
+                    font: italic bold 24px "宋体";
+                }
+
+                .copy {
+                    margin-left: 24px;
+                }
+            }
+
+            :deep(.el-col) {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+    }
+}
