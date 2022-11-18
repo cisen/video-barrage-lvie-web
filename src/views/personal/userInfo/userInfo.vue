@@ -54,7 +54,7 @@ import {
   useUserInfoProp,
   useUserInfoMethod,
   useRoles,
-} from "@/hooks/personal/userInfo/userInfo";
+} from "@/hooks/personal/userInfo/useUserInfo";
 import pageHeader from "@/components/personalNavigation/pageHeader.vue";
 import {vRemoveFocus} from "@/utils/customInstruction/focus"
 

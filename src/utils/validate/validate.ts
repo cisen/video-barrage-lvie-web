@@ -68,3 +68,16 @@ export const validateUsername = (rule: any, value: any, callback: any) => {
       callback();
     }
 };
+
+
+   //验证直播标题
+   export const validateLiveInformation = async (rule: any, value: any, callback: any) => {
+    value as string;
+    if (value === '') {
+      callback(new Error('请输入直播标题'));
+    } else if (value.length < 8 || value.length > 20) {
+      callback(new Error('标题长度需要在8-20位之间'));
+    } else{
+      callback();
+    }
+};

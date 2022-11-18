@@ -101,7 +101,7 @@ const nextStep = () => {
 
 const getLiveRoomInfo = async () => {
   try {
-    if (userInfo.userInfoData.liveData.address && userInfo.userInfoData.liveData.key) {
+    if (!userInfo.userInfoData.liveData.address && !userInfo.userInfoData.liveData.key) {
       const data = await getLiveRoom();
       userInfo.userInfoData.liveData.address = data.data?.address || "";
       userInfo.userInfoData.liveData.key = data.data?.key || "";

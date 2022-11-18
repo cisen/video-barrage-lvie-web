@@ -4,7 +4,5 @@ export const vRemoveFocus = {
         el.blur();
       });
     },
-  };
-  
-
+};
   

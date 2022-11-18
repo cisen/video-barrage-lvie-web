@@ -1,0 +1,16 @@
+//颜色定义
+$color-theme: rgba(107,129,170,1);
+//灰色背景
+$color-gray-background : rgba(241,242,243,0.8);
+//文字黑色
+$color-gray-text : rgba(123, 127, 130, 0.8);
+//主题按钮颜色
+$color-button-theme :#409eff;
+ 
+
+:export {
+  colorTheme: $color-theme;
+  colorGrayBackground : $color-gray-background ;
+  colorGrayText : $color-gray-text;
+  colorButtonTheme  : $color-button-theme ;
+} 

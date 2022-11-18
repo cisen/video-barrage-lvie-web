@@ -123,6 +123,13 @@ class RequestHttp {
   post<T>(url: string, params?: object): Promise<ResultData<T>> {
     return this.service.post(url, params);
   }
+  upload<T>(url: string, params?: object): Promise<ResultData<T>> {
+    return this.service.post(url, params,{
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+    });
+  }
   put<T>(url: string, params?: object): Promise<ResultData<T>> {
     return this.service.put(url, params);
   }

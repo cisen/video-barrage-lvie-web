@@ -36,6 +36,15 @@ export default [{
         keepAlive: false
       },
       component: () => import('@/views/personal/userInfo/pictureSetting.vue')
+    },{
+      path: 'livesetup',
+      name: 'liveSetUp',
+      meta: {
+        title: '直播设置',
+        requireAuth: false,
+        keepAlive: false
+      },
+      component: () => import('@/views/personal/live/setUp.vue')
     },
   ]
 }] 

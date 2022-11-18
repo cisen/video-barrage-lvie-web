@@ -1,3 +1,4 @@
+import { OssConfig } from './../types/idnex';
 import { defineStore } from 'pinia'
 import { reactive } from "vue"
 import { userInfoRes } from '@/types/login/login'
@@ -54,18 +55,31 @@ export const useGlobalStore = defineStore("global", () => {
             `,
             loadingSvgViewBox: "-10, -10, 50, 50",
 
+        },
+        oss : {
+            access_id: "",
+            host: "",
+            expire: 0,
+            signature: "",
+            policy: "",
+            dir: "",
+          }
         }
-    })
+    )
 
     const setGlobalLoading = (boll: boolean) => {
         globalData.loading.loading = boll
+    }
+    const setGlobalOss = (data: OssConfig) => {
+        globalData.oss = data
     }
 
 
 
     return {
         globalData,
-        setGlobalLoading
+        setGlobalLoading,
+        setGlobalOss
     }
 
 })

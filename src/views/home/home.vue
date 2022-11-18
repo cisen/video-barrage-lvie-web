@@ -2,33 +2,45 @@
   <div class="mian">
     <div class="head">
       <!-- 顶部直播部分 -->
-      <div class="live-part">
-      <div class="liv-window">
-        <el-row>
-        <el-col :span="18">
-        <div class="liv-player">
-        <video id="videoElement" class="" controls autoplay muted></video>
-        
+      <div class="live-part  animate__animated animate__slideInDown">
+        <div class="liv-window">
+          <el-row>
+            <el-col :span="18">
+              <div class="liv-player">
+                <video id="videoElement" class="" controls autoplay muted></video>
+
+              </div>
+            </el-col>
+            <el-col :span="4">
+              <div class="optional-list">
+                <div class="list-item">
+                  <img class="item-img" src="@/assets/img/home/background.png" alt="">
+                </div>
+                <div class="list-item">
+                  <img class="item-img" src="@/assets/img/home/background.png" alt="">
+                </div>
+                <div class="list-item">
+                  <img class="item-img" src="@/assets/img/home/background.png" alt="">
+                </div>
+                <div class="list-item">
+                  <img class="item-img" src="@/assets/img/home/background.png" alt="">
+                </div>
+              </div>
+            </el-col>
+          </el-row>
         </div>
-        </el-col>
-        <el-col :span="4">
-        <div class="optional-list">
-        <div class="list-item">
-        <img  class="item-img" src="@/assets/img/home/background.png" alt="">
-        </div>
-        <div class="list-item">
-        <img  class="item-img" src="@/assets/img/home/background.png" alt="">
-        </div>
-        <div class="list-item">
-        <img  class="item-img" src="@/assets/img/home/background.png" alt="">
-        </div>
-        <div class="list-item">
-        <img  class="item-img" src="@/assets/img/home/background.png" alt="">
-        </div>
-        </div>
-        </el-col>
-      </el-row>
       </div>
+    </div>
+
+    <div class="middle">
+      <div class="recommended">
+        <div class="single">
+          <span class="titel">推荐直播</span>
+          <div class="content">
+            <Card></Card>  <Card></Card>  <Card></Card> <Card></Card>  <Card></Card>   <Card></Card>   <Card></Card>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>
@@ -36,13 +48,17 @@
 
 <script setup lang="ts">
 import flvJs from "flv.js";
+import Card from "@/components/homeVideoList/card.vue"
 import { onMounted } from "vue";
 
+components:{
+  Card
+}
 const play = () => {
   if (flvJs.isSupported()) {
     let videoElement = document.getElementById("videoElement");
     let flvPlayer;
-    flvPlayer = flvJs.createPlayer({
+    flvPlayer = flvJs.createPlayer({ 
       type: "flv",
       isLive: true,
       hasAudio: false,
@@ -55,11 +71,11 @@ const play = () => {
   }
 };
 
-onMounted : {
+onMounted: {
   setTimeout(() => {
     play()
   }, 500);
-  
+
 }
 </script>
 

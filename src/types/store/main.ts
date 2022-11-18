@@ -1,3 +1,4 @@
+import { OssConfig } from './../idnex';
 
 export interface userInfo {
     id : number
@@ -21,4 +22,5 @@ export interface global {
         loadingSvg ?: string
         loadingSvgViewBox ?: string
     }
+    oss : OssConfig
 }

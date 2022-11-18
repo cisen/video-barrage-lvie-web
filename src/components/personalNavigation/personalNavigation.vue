@@ -37,7 +37,7 @@
           </div>
         </el-menu-item>
       </el-sub-menu>
-      <el-menu-item index="直播设置">
+      <el-menu-item index="liveSetUp">
         <div class="icon-item">
           <SvgIcon name="live" class="icon"></SvgIcon>
           <span>直播设置</span>
