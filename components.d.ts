@@ -41,6 +41,7 @@ declare module '@vue/runtime-core' {
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTimePicker: typeof import('element-plus/es')['ElTimePicker']
+    ElUpload: typeof import('element-plus/es')['ElUpload']
     MessageBoxInfo: typeof import('./src/components/messageBoxInfo/messageBoxInfo.vue')['default']
     MisIcon: typeof import('./src/components/MisIcon.vue')['default']
     PageHeader: typeof import('./src/components/personalNavigation/pageHeader.vue')['default']

@@ -1,5 +1,5 @@
 <template>
-  <div class="page-header  animate__animated animate__slideInDown" >
+  <div class="page-header  animate__animated animate__slideInDown animate__faster" >
     <SvgIcon :name="iconNmae" class="icon"></SvgIcon>
     <span>{{title}}</span>
     <div class="whiteWhale">

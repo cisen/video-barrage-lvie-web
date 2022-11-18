@@ -1,7 +1,7 @@
 <template>
   <div class="overall">
     <pageHeader title="编辑信息" icon-nmae="userData"></pageHeader>
-    <div class="form-box personal-layout animate__animated animate__slideInRight">
+    <div class="form-box personal-layout animate__animated animate__slideInRight ">
       <el-form :model="form" :rules="userInfoRules" label-width="120px">
         <el-form-item label="昵称" prop="username">
           <el-input class="input-name" v-model="form.username" clearable />

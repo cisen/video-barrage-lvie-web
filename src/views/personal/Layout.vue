@@ -1,6 +1,6 @@
 <template>
   <div class="personal">
-  <div class="personal-layout animate__animated animate__rotateInUpLeft">
+  <div class="personal-layout animate__animated animate__rotateInUpLeft animate__faster">
         <el-container>
         <el-aside width="250px">
         <personalNavigation></personalNavigation>
