@@ -10,10 +10,10 @@
           mode="horizontal"
           @select="handleSelect"
         >
-          <el-menu-item index="/index"> 直播 </el-menu-item>
-          <el-menu-item index="/index/主机"> 主机 </el-menu-item>
-          <el-menu-item index="/index/手游"> 手游 </el-menu-item>
-          <el-menu-item index="/index/娱乐"> 娱乐 </el-menu-item>
+          <el-menu-item index="/"> 直播 </el-menu-item>
+          <el-menu-item index="/主机"> 主机 </el-menu-item>
+          <el-menu-item index="/手游"> 手游 </el-menu-item>
+          <el-menu-item index="/娱乐"> 娱乐 </el-menu-item>
         </el-menu>
       </div>
     </el-col>

@@ -3,9 +3,9 @@
     <pageHeader title="直播设置" icon-nmae="live"></pageHeader>
     <div class=" principal  personal-layout animate__animated animate__slideInRight">
       <div class="form-box">
-        <el-upload class="avatar-uploader" :action="liveInformationForm.action" :headers="liveInformationForm.headers"
-          :show-file-list="false" :on-success="handle.handleAvatarSuccess" :on-error="handle.handleAvatarError" 
-          :before-upload="handle.beforeAvatarUpload"  :auto-upload="true"  :http-request="handle.RedefineUploadFile">
+        <el-upload class="avatar-uploader" :action="liveInformationForm.action" :show-file-list="false"
+          :on-success="handle.handleFileSuccess" :on-error="handle.handleFileError"
+          :before-upload="handle.beforeFileUpload" :auto-upload="true" :http-request="handle.RedefineUploadFile">
           <img v-if="liveInformationForm.imageUrl" :src="liveInformationForm.imageUrl" class="avatar" />
           <el-icon v-else class="avatar-uploader-icon">
             <Plus />
@@ -13,9 +13,10 @@
         </el-upload>
         <div>
           <div class="form-show">
-            <el-form :model="liveInformationForm" ref="saveDateFormRef" :rules="liveInformationRules" label-position="left" label-width="5rem" >
-            
-              <el-form-item label="直播标题" prop="title"> 
+            <el-form :model="liveInformationForm" ref="saveDateFormRef" :rules="liveInformationRules"
+              label-position="left" label-width="5rem">
+
+              <el-form-item label="直播标题" prop="title">
                 <el-input v-model="liveInformationForm.title" />
               </el-form-item>
               <el-form-item label="Adders">
@@ -35,7 +36,8 @@
       <div class="bottom-box">
         <span class="text"> 请设置您的直播封面和标题,以便更好吸引观众嗷~</span>
         <div class="button">
-          <el-button v-removeFocus @click="useSaveData(liveInformationForm,saveDateFormRef,rawData)" type="primary" round>保存资料
+          <el-button v-removeFocus @click="useSaveData(liveInformationForm, saveDateFormRef, rawData)" type="primary"
+            round>保存资料
           </el-button>
         </div>
       </div>
@@ -45,30 +47,19 @@
 <script lang="ts" setup>
 import { Plus } from "@element-plus/icons-vue";
 import { vRemoveFocus } from "@/utils/customInstruction/focus"
-import { useAvatarProp, useHandleAvatarMethod, useSaveData, useCopy ,useRoles,useInit} from "@/hooks/personal/live/useSetUpLive"
+import { useAvatarProp, useHandleFileMethod, useSaveData, useCopy, useRoles, useInit } from "@/hooks/personal/live/useSetUpLive"
 import { liveKeyDesensitization } from "@/utils/conversion/stringConversion";
+import { onMounted } from "vue";
 
 
-const { userStore, liveInformationForm,saveDateFormRef,rawData } = useAvatarProp()
-const handle = useHandleAvatarMethod(liveInformationForm)
-const {liveInformationRules} = useRoles();
+const { userStore, liveInformationForm, saveDateFormRef, rawData } = useAvatarProp()
+const handle = useHandleFileMethod(liveInformationForm)
+const { liveInformationRules } = useRoles();
 
-// const  uploadFile  = ()  => (options: UploadRequestOptions) : XMLHttpRequest | Promise<unknown> =>{
-//   console.log(options);
-//   console.log(123123123)
-//   return new Promise((resolve, reject) => {
-//      resolve("123")
-//   })
-// }
+onMounted(() => {
+  useInit(liveInformationForm, rawData)
+})
 
-
-
-
-
-
-mounted:{
-  useInit(liveInformationForm,rawData) 
-}
 </script>
 <style scoped lang="scss">
 @import "@/assets/styles/views/personal/live/setUp.scss";

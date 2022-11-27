@@ -13,7 +13,7 @@ const routes = [
         redirect: '/index'
     },
     {
-        path: "/index",
+        path: "",
         name: "Index",
         component: () => import('@/views/Layout.vue'),
         children:[
@@ -27,7 +27,8 @@ const routes = [
                 },
                 component: () => import('@/views/home/home.vue')
             },
-            ...personalRouter
+            ...personalRouter,
+            ...liveRouter
         ]
     }, 
     {
@@ -41,7 +42,8 @@ const routes = [
         name: "Login",
         component: () => import('@/views/login/login.vue'),
     },
-    ...liveRouter
+   
+    
 ];
 
 const router = createRouter({

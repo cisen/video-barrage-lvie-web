@@ -67,10 +67,10 @@ class RequestHttp {
       (response: AxiosResponse) => {
         const {data, config} = response; // 解构
         if(data.code == RequestEnums.OPERATIONFail){
-            ElMessage({
-                message: data.message,
-                type: 'warning',
-            })
+            // ElMessage({
+            //     message: data.message,
+            //     type: 'warning',
+            // })
             return Promise.reject(data);
         }
 

@@ -1,7 +1,7 @@
 <template>
   <div class="info">
     <div class="avatar">
-      <router-link to="/index/personal"><el-avatar :size="36" :src="userInfo.userInfoData.photo" /></router-link>
+      <router-link to="/personal"><el-avatar :size="36" :src="userInfo.userInfoData.photo" /></router-link>
     </div>
     <!-- iocn -->
     <div class="icon-list">

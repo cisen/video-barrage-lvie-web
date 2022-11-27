@@ -42,8 +42,11 @@ declare module '@vue/runtime-core' {
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
+    ElTabPane: typeof import('element-plus/es')['ElTabPane']
+    ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTimePicker: typeof import('element-plus/es')['ElTimePicker']
     ElUpload: typeof import('element-plus/es')['ElUpload']
+    LiveHeader: typeof import('./src/components/LiveBroadcast/liveHeader.vue')['default']
     MessageBoxInfo: typeof import('./src/components/messageBoxInfo/messageBoxInfo.vue')['default']
     MisIcon: typeof import('./src/components/MisIcon.vue')['default']
     PageHeader: typeof import('./src/components/personalNavigation/pageHeader.vue')['default']
@@ -51,9 +54,11 @@ declare module '@vue/runtime-core' {
     RightSide: typeof import('./src/components/topNavigation/rightSide/rightSide.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Side: typeof import('./src/components/LiveBroadcast/side.vue')['default']
     SideNavigation: typeof import('./src/components/personalNavigation/sideNavigation/sideNavigation.vue')['default']
     SvgIcon: typeof import('./src/components/SvgIcon/index.vue')['default']
     TopNavigation: typeof import('./src/components/topNavigation/topNavigation.vue')['default']
+    WebSocket: typeof import('./src/components/LiveBroadcast/webSocket.vue')['default']
   }
   export interface ComponentCustomProperties {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']

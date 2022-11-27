@@ -15,4 +15,5 @@ export type determineNameExistsRes = boolean
 export type setUserInfoRes = boolean 
 export interface updateAvatarReq {
     imgUrl :string
+    interface : string
 }

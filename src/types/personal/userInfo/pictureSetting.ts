@@ -1,9 +1,7 @@
 export  interface  uploadAvatar {
     imageUrl: string,
+    interface : string,
     uploadUrl: string,
-    headers: {
-        token : string
-    },
-    data? : Array<unknown>,
+    uploadType : string,
     action:string,
 }

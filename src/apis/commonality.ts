@@ -1,8 +1,8 @@
 import httpRequest from "@/utils/requst"
-import {getUploadingMethodRrq ,getUploadingMethodRrs } from "@/types/commonality/commonality"
+import {getUploadingMethodRrq ,getUploadingMethodRrs , getOssConfigdRrq } from "@/types/commonality/commonality"
 
-export function getOssConfig() {
-    return httpRequest.post('/commonality/ossConfig');
+export function getOssConfig(params: getOssConfigdRrq) {
+    return httpRequest.post('/commonality/ossConfig',params);
 }
 
 export function getuploadingMethod(params: getUploadingMethodRrq) {

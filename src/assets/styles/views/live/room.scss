@@ -1,0 +1,52 @@
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #eaecf1;
+    border-radius: 3px;
+}
+
+.overall {
+    .head {
+        width: 100%;
+
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+        display: flex;
+        justify-content: center;
+        background-image: url("@/assets/img/login/background.png");
+        background-size: 100% 100%;
+
+        .common-row {
+            border-radius: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            width: 60%;
+
+            :deep(.el-row) {
+                width: 100%;
+                margin: 0;
+
+            }
+
+            .live-box {
+                border-radius: 6px;
+                background-color: #fff;
+
+
+                :deep(.el-main) {
+                    padding: 0px;
+                    margin: 0px;
+                }
+            }
+
+            .player {
+                height: 36rem;
+                width: 100%;
+            }
+        }
+    }
+}

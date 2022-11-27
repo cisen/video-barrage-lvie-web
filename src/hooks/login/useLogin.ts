@@ -116,7 +116,7 @@ export const useLoginMethod =  (store: any, router: Router, loginForm: loginReq)
                         type: 'success', 
                     })
                     loading.loading = false
-                    router.push("/index")
+                    router.push("/")
 
                 }
                 catch (err) {
@@ -152,7 +152,7 @@ export const useRegisterMethod = (store: any, router: Router, registForm: regist
                         type: 'success',
                     })
                     loading.loading = false
-                    router.push("/index")
+                    router.push("/")
                 }
                 catch (err) {
                     loading.loading = false

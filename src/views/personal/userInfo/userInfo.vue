@@ -57,6 +57,7 @@ import {
 } from "@/hooks/personal/userInfo/useUserInfo";
 import pageHeader from "@/components/personalNavigation/pageHeader.vue";
 import {vRemoveFocus} from "@/utils/customInstruction/focus"
+import { onMounted } from "vue";
 
 
 components: {
@@ -65,9 +66,12 @@ components: {
 const { form } = useUserInfoProp();
 const UserInfoMethod = useUserInfoMethod(form);
 const { userInfoRules } = useRoles();
-onMounted: {
+
+onMounted(() => {
   UserInfoMethod.getUserInfo();
-}
+})
+
+
 </script>
 <style scoped lang="scss">
 @import "@/assets/styles/views/personal/userInfo/userInfo.scss";

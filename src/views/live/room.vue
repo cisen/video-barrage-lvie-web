@@ -1,33 +1,50 @@
 <template>
-  <div>
-    <video id="videoElement" class="" controls autoplay muted>
-    </video>
-    <button @click="play">播放</button>
+  <div class="overall" >
+    <div class="head animate__animated animate__slideInDown">
+      <div class="common-row">
+        <el-row :gutter="20">
+          <el-col :span="18">
+            <div class="live-box">
+              <LiveHeader
+                src="http://127.0.0.1:8080/assets/static/img/users/headPortrait/uploaded/a1da5ca34b6347763e667b657b638e65c005b5b86c193e7187a84acd956b7739.png"
+                titel="你没见过的丝滑操作" />
+              <div ref="videoRef" class="player" id="dplay" />
+            </div>
+          </el-col>
+          <el-col :span="6">
+            <Side ref="sideRef" @sendMessage="sendMessage" :userInfo="userStore.userInfoData"></Side>
+          </el-col>
+        </el-row>
+      </div>
+    </div>
   </div>
-</template>
+</template> 
+<script lang="ts"  setup >
+import LiveHeader from "@/components/LiveBroadcast/liveHeader.vue"
+import Side from "@/components/LiveBroadcast/side.vue";
+import DPlayer from "dplayer"
+import { useLiveRoomProp, useWebSocket, useInit } from "@/hooks/live/useLiveRoom"
+import { onMounted, ref } from "vue";
 
-
-<script setup lang="ts">
-import flvJs from 'flv.js'
-
-const play = () => {
-  if (flvJs.isSupported()) {
-    let videoElement = document.getElementById('videoElement');
-    let flvPlayer;
-    flvPlayer = flvJs.createPlayer({
-      type: 'flv',
-      isLive: true,
-      hasAudio: false,
-      url: 'http://127.0.0.1:7001/live/30.flv'
-    });
-    flvPlayer.attachMediaElement(videoElement as any as HTMLMediaElement);
-    flvPlayer.load();
-    flvPlayer.play();  
-    return flvPlayer
-  }
+components: {
+  LiveHeader
+  Side
 }
+const sideRef = ref()
+var dp: DPlayer //播放器配置对象
+const { videoRef, userStore } = useLiveRoomProp()
+const sendMessage = ref((tset: string) => {
+  console.log(tset)
+})
+
+onMounted(async () => {
+  dp = await useInit(videoRef) as DPlayer
+  sendMessage.value = useWebSocket(dp, userStore, sideRef).sendMessage
+  console.log(sideRef.value)
+})
+
 </script>
 
 <style scoped lang="scss">
-@import "@/assets/styles/views/live/room.scss";
+@import "@/assets/styles/views/live/room.scss"
 </style>

@@ -18,9 +18,9 @@ export const useAvatarProp = () => {
     const liveInformationForm = reactive<liveInformation>({
         imageUrl: '',
         uploadUrl: "",
+        interface : "liveCover",
         title: "",
         uploadType: "",
-        data: {},
         action: "#",
     });
 
@@ -39,16 +39,16 @@ export const useAvatarProp = () => {
 }
 
 
-export const useHandleAvatarMethod = (liveInformationForm: liveInformation) => {
+export const useHandleFileMethod = (liveInformationForm: liveInformation) => {
 
-    const handleAvatarSuccess: UploadProps['onSuccess'] = (
+    const handleFileSuccess: UploadProps['onSuccess'] = (
         response,
         uploadFile
     ) => {
         liveInformationForm.imageUrl = URL.createObjectURL(uploadFile.raw!)
     }
 
-    const handleAvatarError: UploadProps['onError'] = (
+    const handleFileError: UploadProps['onError'] = (
         response,
     ) => {
         console.log("上传失败")
@@ -64,7 +64,7 @@ export const useHandleAvatarMethod = (liveInformationForm: liveInformation) => {
     }
 
 
-    const beforeAvatarUpload: UploadProps['beforeUpload'] = async (rawFile) => {
+    const beforeFileUpload: UploadProps['beforeUpload'] = async (rawFile) => {
         if (rawFile.size / 1024 / 1024 > 2) {
             Swal.fire({
                 title: "文件不符合格式",
@@ -79,7 +79,7 @@ export const useHandleAvatarMethod = (liveInformationForm: liveInformation) => {
 
     const RedefineUploadFile = async (params: UploadRequestOptions) => {
         try {
-            const response = await uploadFile(liveInformationForm.uploadType, params.file)
+            const response = await uploadFile(liveInformationForm.uploadType, liveInformationForm.interface, params.file)
             liveInformationForm.uploadUrl = response.path
             console.log(response)
         } catch (err) {
@@ -94,9 +94,9 @@ export const useHandleAvatarMethod = (liveInformationForm: liveInformation) => {
     }
 
     return {
-        handleAvatarSuccess,
-        beforeAvatarUpload,
-        handleAvatarError,
+        handleFileSuccess,
+        beforeFileUpload,
+        handleFileError,
         RedefineUploadFile
     }
 
@@ -157,15 +157,17 @@ export const useInit = async (liveInformationForm: liveInformation, rawData: get
         liveInformationForm.title = data.title
         //获取当前接口的请求方法
         const updataMenhod = (await getuploadingMethod(<getUploadingMethodRrq>{
-            method: "liveCover"
-        })).data as getUploadingMethodRrs
+            method: liveInformationForm.interface
+        })).data as getUploadingMethodRrs 
         liveInformationForm.uploadType = updataMenhod.type
-        console.log(updataMenhod)
+        console.log(updataMenhod) 
 
     } catch (err) {
         console.log(err)
     }
 }
+
+
 
 export const useCopy = async (text: string) => {
     try {

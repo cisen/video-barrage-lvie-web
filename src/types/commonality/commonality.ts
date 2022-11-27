@@ -5,5 +5,8 @@ export interface getUploadingMethodRrq {
 
 export interface getUploadingMethodRrs {
     type : string
-    info : object
+} 
+
+export interface  getOssConfigdRrq  {
+    interface : string
 }

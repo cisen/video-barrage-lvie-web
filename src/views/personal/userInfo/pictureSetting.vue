@@ -3,9 +3,9 @@
     <pageHeader title="更换头像" icon-nmae="pictures"></pageHeader>
     <div class=" principal  personal-layout animate__animated animate__slideInRight">
       <div class="form-box">
-        <el-upload class="avatar-uploader" :action="uploadAvatarForm.action" :headers="uploadAvatarForm.headers"
-          :show-file-list="false" :on-success="handle.handleAvatarSuccess" :on-error="handle.handleAvatarError"
-          :before-upload="handle.beforeAvatarUpload">
+        <el-upload class="avatar-uploader" :action="uploadAvatarForm.action" :show-file-list="false"
+          :on-success="handle.handleFileSuccess" :on-error="handle.handleFileError"
+          :before-upload="handle.beforeFileUpload" :auto-upload="true" :http-request="handle.redefineUploadFile">
           <img v-if="uploadAvatarForm.imageUrl" :src="uploadAvatarForm.imageUrl" class="avatar" />
           <el-icon v-else class="avatar-uploader-icon">
             <Plus />
@@ -20,7 +20,8 @@
       <div class="bottom-box">
         <span class="text"> 请选择图片上传:大小180 * 180像素支持JPG、PNG等格式,图片需小于2M</span>
         <div class="button">
-          <el-button v-removeFocus @click="useUpdateAvatar(userStore,uploadAvatarForm)" type="primary" round>修改头像</el-button>
+          <el-button v-removeFocus @click="useUpdateAvatar(userStore, uploadAvatarForm)" type="primary" round>修改头像
+          </el-button>
         </div>
       </div>
     </div>
@@ -28,15 +29,17 @@
 </template>
 <script lang="ts" setup>
 import { Plus } from "@element-plus/icons-vue";
-import {vRemoveFocus} from "@/utils/customInstruction/focus"
-import {useAvatarProp,useHandleAvatarMethod,useUpdateAvatar} from "@/hooks/personal/userInfo/usePictureSetting"
+import { vRemoveFocus } from "@/utils/customInstruction/focus"
+import { useAvatarProp, useHandleFileMethod, useUpdateAvatar, useInit } from "@/hooks/personal/userInfo/usePictureSetting"
+import { onMounted } from "vue";
 
-const { userStore ,uploadAvatarForm } = useAvatarProp()
-const handle = useHandleAvatarMethod(uploadAvatarForm)
+const { userStore, uploadAvatarForm } = useAvatarProp()
+const handle = useHandleFileMethod(uploadAvatarForm)
 
 
-
-
+onMounted(() => {
+  useInit(uploadAvatarForm)
+})
 
 </script>
 <style scoped lang="scss">

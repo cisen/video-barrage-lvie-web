@@ -65,8 +65,8 @@ const play = () => {
       url: "http://127.0.0.1:7001/live/30.flv",
     });
     flvPlayer.attachMediaElement((videoElement as any) as HTMLMediaElement);
-    // flvPlayer.load()
-    // flvPlayer.play()
+    flvPlayer.load()
+    flvPlayer.play()
     return flvPlayer;
   }
 };
