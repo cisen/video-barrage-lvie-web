@@ -3,18 +3,21 @@ import { uploadAvatar } from "@/types/personal/userInfo/pictureSetting"
 import { updateAvatarReq } from "@/types/personal/userInfo/userInfo"
 import { updateAvatarRequist } from "@/apis/personal"
 import Swal from 'sweetalert2'
-import type { UploadProps } from 'element-plus'
+import type { UploadProps, UploadRequestOptions } from 'element-plus'
 import { useUserStore } from "@/store/main";
 import globalScss from "@/assets/styles/global/export.module.scss"
- 
+import { getuploadingMethod } from "@/apis/commonality";
+import { getUploadingMethodRrq, getUploadingMethodRrs } from "@/types/commonality/commonality";
+import { uploadFile } from "@/utils/upload/upload";
+
 export const useAvatarProp = () => {
-    const userStore = useUserStore ()
+    const userStore = useUserStore()
     const uploadAvatarForm = reactive<uploadAvatar>({
         imageUrl: '',
         uploadUrl: "",
-        headers: { "token": userStore.userInfoData.token },
-        data: [], 
-        action: "http://localhost:8080/user/upload",
+        interface : "userAvatar",
+        uploadType: "",
+        action: "#",
     });
 
     return {
@@ -24,19 +27,17 @@ export const useAvatarProp = () => {
 }
 
 
-export const useHandleAvatarMethod = (uploadAvatarForm: uploadAvatar) => {
+export const useHandleFileMethod = (uploadAvatarForm: uploadAvatar) => {
 
-    const handleAvatarSuccess: UploadProps['onSuccess'] = (
+    const handleFileSuccess: UploadProps['onSuccess'] = (
         response,
         uploadFile
     ) => {
         uploadAvatarForm.imageUrl = URL.createObjectURL(uploadFile.raw!)
-        console.log(response)
-        uploadAvatarForm.uploadUrl = response.data
     }
 
 
-    const handleAvatarError: UploadProps['onError'] = (
+    const handleFileError: UploadProps['onError'] = (
         response,
     ) => {
         console.log("上传失败")
@@ -50,8 +51,7 @@ export const useHandleAvatarMethod = (uploadAvatarForm: uploadAvatar) => {
 
     }
 
-
-    const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+    const beforeFileUpload: UploadProps['beforeUpload'] = (rawFile) => {
         if (rawFile.size / 1024 / 1024 > 2) {
             Swal.fire({
                 title: "文件不符合格式",
@@ -65,19 +65,52 @@ export const useHandleAvatarMethod = (uploadAvatarForm: uploadAvatar) => {
         return true
     }
 
+
+    const redefineUploadFile = async (params: UploadRequestOptions) => {
+        try {
+            const response = await uploadFile(uploadAvatarForm.uploadType,uploadAvatarForm.interface, params.file)
+            uploadAvatarForm.uploadUrl = response.path
+            console.log(response)
+        } catch (err) {
+            console.log(err)
+            Swal.fire({
+                title: "获取上传节点失败",
+                heightAuto: false,
+                confirmButtonColor: globalScss.colorButtonTheme,
+                icon: "error",
+            })
+        }
+    }
+
     return {
-        handleAvatarSuccess,
-        beforeAvatarUpload,
-        handleAvatarError,
+        handleFileSuccess,
+        beforeFileUpload,
+        handleFileError,
+        redefineUploadFile
     }
 
 }
+
+export const useInit = async (uploadAvatarForm: uploadAvatar) => {
+    try {
+        const updataMenhod = (await getuploadingMethod(<getUploadingMethodRrq>{
+            method: uploadAvatarForm.interface
+        })).data as getUploadingMethodRrs
+        uploadAvatarForm.uploadType = updataMenhod.type
+        console.log(updataMenhod)
+
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 
 export const useUpdateAvatar = async (store: any, uploadAvatarForm: uploadAvatar) => {
     try {
         if (!uploadAvatarForm.uploadUrl) throw "请先上传图片"
         const requistData = <updateAvatarReq>{
-            imgUrl: uploadAvatarForm.uploadUrl
+            imgUrl: uploadAvatarForm.uploadUrl,
+            interface : uploadAvatarForm.interface
         }
         const data = await updateAvatarRequist(requistData)
         console.log(data)
@@ -85,7 +118,7 @@ export const useUpdateAvatar = async (store: any, uploadAvatarForm: uploadAvatar
         store.userInfoData.photo = String(data.data) ?? ""
         Swal.fire({
             title: "更换成功",
-            heightAuto: false, 
+            heightAuto: false,
             icon: "success",
 
         })
@@ -97,7 +130,7 @@ export const useUpdateAvatar = async (store: any, uploadAvatarForm: uploadAvatar
             confirmButtonColor: globalScss.colorButtonTheme,
             heightAuto: false,
             icon: "warning",
- 
+
         })
     }
 } 
