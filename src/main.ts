@@ -27,5 +27,6 @@ const global = useGlobalStore()
 //挂载全局
 app.provide('global',{
     global
-})  
-app.mount('#app')
+})
+
+router.isReady().then(() => app.mount('#app')) 

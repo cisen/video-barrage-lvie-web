@@ -1,7 +1,3 @@
-export  interface  uploadAvatar {
-    imageUrl: string,
-    interface : string,
-    uploadUrl: string,
-    uploadType : string,
-    action:string,
+import {FileUpload} from "@/types/idnex"
+export  interface  uploadAvatar  extends FileUpload{
 }

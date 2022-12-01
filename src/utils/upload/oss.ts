@@ -1,8 +1,8 @@
 import { ElLoading, ElMessage } from "element-plus"
 import { useGlobalStore } from "@/store/main"
-import { OssConfig } from "@/types/idnex"
+import { FileUpload, OssConfig } from "@/types/idnex"
 import { getOssConfig, getuploadingMethod } from "@/apis/commonality"
-import axios from "axios"
+import axios, { AxiosRequestConfig } from "axios"
 import { fileHash, fileSuffix } from "./fileManipulation"
 import { getOssConfigdRrq } from "@/types/commonality/commonality"
 
@@ -22,10 +22,10 @@ export const initOssConfig = async (_interface: string): Promise<OssConfig> => {
                 resolve(conf)
                 return
             }
-        } 
+        }
         // 请求接口返回配置数据
         getOssConfig(<getOssConfigdRrq>{
-            interface :  _interface 
+            interface: _interface
         })
             .then((res) => {
                 if (res.code == 200) {
@@ -49,13 +49,18 @@ export const initOssConfig = async (_interface: string): Promise<OssConfig> => {
  * @param file File对象
  * @returns {Promise<{name:string,host:string}>}
  */
-export const ossUpload = (file: any, _interface: string): Promise<{ path: string }> => {
+export const ossUpload = (file: any, uploadConfig: FileUpload): Promise<{ path: string }> => {
     return new Promise((resolve, reject) => {
-        initOssConfig(_interface)
+        initOssConfig(uploadConfig.interface)
             .then(async (ossConf) => {
-                const config = {
+                const config = <AxiosRequestConfig>{
                     timeout: 1000 * 60 * 10,
-                    headers: { 'Content-Type': 'multipart/form-data' }
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                    onUploadProgress: ProgressEvent => {
+                        if(!ProgressEvent?.total) return ;
+                        //计算进度条
+                        uploadConfig.progress =  Math.round(ProgressEvent.loaded / ProgressEvent?.total  * 100)
+                    } 
                 }
                 // 计算文件Hash 避免多余的文件上传，这样做的目的是尽量少占用OSS的空间
                 const name = await fileHash(file) + fileSuffix(file.name)

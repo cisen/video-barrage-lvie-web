@@ -69,6 +69,7 @@ const { userInfoRules } = useRoles();
 
 onMounted(() => {
   UserInfoMethod.getUserInfo();
+  
 })
 
 

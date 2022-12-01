@@ -2,6 +2,7 @@ import httpRequest from "@/utils/requst"
 
 import {UserInfoRes ,determineNameExistsRes,determineNameExistsReq,setUserInfoRes,updateAvatarReq} from "@/types/personal/userInfo/userInfo"
 import {saveLiveDataReq,getLiveDataRes} from "@/types/personal/live/setUp"
+import { FileUpload } from "@/types/idnex";
 
 export const getUserInfoRequist = () => {
     return httpRequest.post<UserInfoRes>('/user/getUserInfo');
@@ -28,8 +29,8 @@ export const saveLiveDataRequist = (params: saveLiveDataReq) => {
     return httpRequest.post('/user/saveLiveData',params);
 }
 
-export const uploadFile = (params: any) => {
-    return httpRequest.upload('/user/upload',params);
+export const uploadFile = (params: any ,uploadConfig: FileUpload) => {
+    return httpRequest.upload('/user/upload',params,uploadConfig);
 }
 
 

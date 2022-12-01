@@ -1,9 +1,9 @@
 <template>
-  <div class="main">
+  <div class="main ">
     <!-- login/register 总盒子 -->
-    <div :class="{ active: currentModel, container: true }">
+    <div :class="{ active: currentModel, container: true,animate__animated :true, animate__flipInX :true}" >
       <!-- 注册 -->
-      <div class="form-container sign-up-container">
+      <div class="form-container sign-up-container ">
         <el-form
           v-if="!isForget"
           class="form"

@@ -1,9 +1,9 @@
 import { UserInfoRes } from '@/types/personal/userInfo/userInfo';
 import { reactive } from "vue";
 import { getUserInfoRequist, setUserInfoRequist } from "@/apis/personal"
-import { ElMessage, ElMessageBox } from 'element-plus';
 import { validateRepeatName } from '@/utils/validate/validate';
-import { messageSuccess } from '@/utils/messagePrompt/messagePrompt';
+import globalScss from "@/assets/styles/global/export.module.scss"
+import Swal from 'sweetalert2';
 
 export const useUserInfoProp = () => {
     const form = reactive<UserInfoRes>({
@@ -41,7 +41,12 @@ export const useUserInfoMethod = (form: UserInfoRes) => {
     const setUserInfo = async () => {
         try {
             let data = await setUserInfoRequist(form)
-            messageSuccess()
+            Swal.fire({
+                title: "修改成功",
+                heightAuto: false,
+                icon: "success",
+                confirmButtonColor: globalScss.colorButtonTheme,
+            })
             console.log(data)
         } catch (err) {
             console.log(err)

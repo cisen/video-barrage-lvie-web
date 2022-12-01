@@ -6,7 +6,7 @@
         <el-upload class="avatar-uploader" :action="liveInformationForm.action" :show-file-list="false"
           :on-success="handle.handleFileSuccess" :on-error="handle.handleFileError"
           :before-upload="handle.beforeFileUpload" :auto-upload="true" :http-request="handle.RedefineUploadFile">
-          <img v-if="liveInformationForm.imageUrl" :src="liveInformationForm.imageUrl" class="avatar" />
+          <img v-if="liveInformationForm.FileUrl" :src="liveInformationForm.FileUrl" class="avatar" />
           <el-icon v-else class="avatar-uploader-icon">
             <Plus />
           </el-icon>

@@ -3,7 +3,7 @@
         <el-tabs v-model="activeName" stretch class="demo-tabs" @tab-click="handleClick">
             <!-- 弹幕留言 -->
             <el-tab-pane label="弹幕留言" name="first">
-                <div class="barrage">
+                <div class="barrage" @scroll="onScroll" ref="barrageMsgListRef">
                     <div>
                         <div class="barrage-msg-list">
                             <div v-for="barrageItem in dataList.baeeage" :key="barrageItem.msg_id">
@@ -22,6 +22,9 @@
                                 <div></div>
                             </div>
                         </div>
+                    </div>
+                    <div class="barrage-prompt" v-show="prompt.show" @click="theBottom">
+                    <div class="prompt"> 新弹幕来辽 {{prompt.num}} <SvgIcon name="drop-down" class="icon"></SvgIcon></div>
                     </div>
                     <div class="barrage-send">
                         <el-input v-model="barrage" resize="none" />
@@ -52,9 +55,9 @@
 import { sideData } from "./types/side";
 import { Check } from "@element-plus/icons-vue";
 import { ElNotification, TabsPaneContext } from "element-plus";
-import { ref, defineEmits, reactive } from "vue";
+import { ref, defineEmits, reactive, onMounted, onBeforeUpdate } from "vue";
 import { encodeProtoFormat } from "@/utils/proto/proto";
-import { WebClientSendBarrageReq, encodeWebClientSendBarrageReq, EnterLiveRoom , WebClientHistoricalBarrageRes} from "@/proto/pb/live";
+import { WebClientSendBarrageReq, encodeWebClientSendBarrageReq, EnterLiveRoom, WebClientHistoricalBarrageRes } from "@/proto/pb/live";
 import { WebClientSendBarrageRes } from "@/proto/pb/live";
 import { vRemoveFocus } from "@/utils/customInstruction/focus";
 
@@ -64,6 +67,18 @@ defineProps({
 
 const emit = defineEmits(["sendMessage"]);
 const activeName = ref("first");
+
+const barrageMsgListRef = ref()
+const barrageMsgListPositioning = reactive({
+    scrollHeight: 0,
+    windowHeight: 0,
+    scrollTop: 0,
+    offsetHeight: 0,
+})
+const prompt = reactive({
+    show : false,
+    num : 0 ,
+})
 
 const dataList = <sideData>reactive({
     baeeage: [],
@@ -96,20 +111,56 @@ const sendMesage = () => {
     barrage.value = "";
     // console.log(emit("sendMessage"))
     emit("sendMessage", msg);
+    theBottom()
 };
+
+const theBottom = () => {
+    barrageMsgListRef.value.scrollTop = barrageMsgListRef.value.scrollHeight;
+    prompt.show = false
+    prompt.num = 0
+}
+
+
+const onScroll = () => {
+    barrageMsgListPositioning.scrollHeight = barrageMsgListRef.value.scrollHeight
+    barrageMsgListPositioning.windowHeight = barrageMsgListRef.value.clientHeight
+    barrageMsgListPositioning.scrollTop = barrageMsgListRef.value.scrollTop
+    barrageMsgListPositioning.offsetHeight = barrageMsgListRef.value.offsetHeight
+    if (barrageMsgListPositioning.windowHeight + barrageMsgListPositioning.scrollTop < barrageMsgListPositioning.scrollHeight){
+        prompt.show = false;
+        prompt.num = 0
+    } 
+
+}
 
 defineExpose({
     addBarrage(msg: WebClientSendBarrageRes) {
-        dataList.baeeage = [...dataList.baeeage, msg];
+        if (barrageMsgListPositioning.windowHeight + barrageMsgListPositioning.scrollTop < barrageMsgListPositioning.scrollHeight) {
+            //未在顶部
+            dataList.baeeage = [...dataList.baeeage, msg];
+            prompt.show = true
+            prompt.num++
+        } else {
+            //在底部的话显示下一行
+            dataList.baeeage = [...dataList.baeeage, msg];
+            setTimeout(()=>{
+                barrageMsgListRef.value.scrollTop = barrageMsgListRef.value.scrollHeight;
+            },100)
+        }
     },
-    addHistoryBarrage(msg: WebClientHistoricalBarrageRes) {
-        if(!msg.list) return false;
+    async addHistoryBarrage(msg: WebClientHistoricalBarrageRes) {
+        if (!msg.list) return false;
         dataList.baeeage = [...dataList.baeeage, ...msg.list.reverse()];
+        // barrageMsgListRef.value.scrollTop = barrageMsgListRef.value.scrollHeight;
     },
     updataOnline(online: Array<EnterLiveRoom>) {
         dataList.online = online
     },
 });
+
+onMounted(() => {
+
+})
 </script>
 
 <style scoped lang="scss">

@@ -16,12 +16,13 @@ export const useAvatarProp = () => {
     const userStore = useUserStore()
     const saveDateFormRef = ref<FormInstance>()
     const liveInformationForm = reactive<liveInformation>({
-        imageUrl: '',
+        FileUrl: '',
         uploadUrl: "",
-        interface : "liveCover",
+        interface: "liveCover",
         title: "",
         uploadType: "",
         action: "#",
+        progress: 0
     });
 
     //定义请求结果原始数据
@@ -45,7 +46,7 @@ export const useHandleFileMethod = (liveInformationForm: liveInformation) => {
         response,
         uploadFile
     ) => {
-        liveInformationForm.imageUrl = URL.createObjectURL(uploadFile.raw!)
+        liveInformationForm.FileUrl = URL.createObjectURL(uploadFile.raw!)
     }
 
     const handleFileError: UploadProps['onError'] = (
@@ -79,7 +80,7 @@ export const useHandleFileMethod = (liveInformationForm: liveInformation) => {
 
     const RedefineUploadFile = async (params: UploadRequestOptions) => {
         try {
-            const response = await uploadFile(liveInformationForm.uploadType, liveInformationForm.interface, params.file)
+            const response = await uploadFile(liveInformationForm, params.file)
             liveInformationForm.uploadUrl = response.path
             console.log(response)
         } catch (err) {
@@ -145,7 +146,7 @@ export const useInit = async (liveInformationForm: liveInformation, rawData: get
     try {
         //获取用户信息
         const data = (await getLiveDataRequist()).data as getLiveDataRes;
-        liveInformationForm.imageUrl = data.img
+        liveInformationForm.FileUrl = data.img
         const imgPathInfo = getLocation(data.img)
         //如何后端返回全路径取域名后路径
         if (imgPathInfo?.pathname) {

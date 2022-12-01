@@ -13,11 +13,12 @@ import { uploadFile } from "@/utils/upload/upload";
 export const useAvatarProp = () => {
     const userStore = useUserStore()
     const uploadAvatarForm = reactive<uploadAvatar>({
-        imageUrl: '',
+        FileUrl: '',
         uploadUrl: "",
-        interface : "userAvatar",
+        interface: "userAvatar",
         uploadType: "",
         action: "#",
+        progress: 0
     });
 
     return {
@@ -33,7 +34,7 @@ export const useHandleFileMethod = (uploadAvatarForm: uploadAvatar) => {
         response,
         uploadFile
     ) => {
-        uploadAvatarForm.imageUrl = URL.createObjectURL(uploadFile.raw!)
+        uploadAvatarForm.FileUrl = URL.createObjectURL(uploadFile.raw!)
     }
 
 
@@ -68,7 +69,7 @@ export const useHandleFileMethod = (uploadAvatarForm: uploadAvatar) => {
 
     const redefineUploadFile = async (params: UploadRequestOptions) => {
         try {
-            const response = await uploadFile(uploadAvatarForm.uploadType,uploadAvatarForm.interface, params.file)
+            const response = await uploadFile(uploadAvatarForm, params.file)
             uploadAvatarForm.uploadUrl = response.path
             console.log(response)
         } catch (err) {
@@ -114,7 +115,7 @@ export const useUpdateAvatar = async (store: any, uploadAvatarForm: uploadAvatar
         }
         const data = await updateAvatarRequist(requistData)
         console.log(data)
-        uploadAvatarForm.imageUrl = ""
+        uploadAvatarForm.FileUrl = ""
         store.userInfoData.photo = String(data.data) ?? ""
         Swal.fire({
             title: "更换成功",

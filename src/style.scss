@@ -2,6 +2,12 @@ html, body, #app {
     padding: 0;
     margin: 0;
     height: 100%;
+
+	
+}
+
+*{
+	font-family:'ZhuZiAWan2';
 }
 
 /**修改全局的滚动条*/
@@ -27,3 +33,10 @@ html, body, #app {
 	height: 100%;
 	width: 100%;
 }
+
+@font-face {
+	font-family: 'ZhuZiAWan2';  
+	src: url('@/assets/font/ZhuZiAWan2.woff2');
+	font-weight: normal;
+	font-style: normal;
+  }

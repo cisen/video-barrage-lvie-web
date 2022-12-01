@@ -6,11 +6,12 @@ import {ElMessage} from "element-plus";
 
 import liveRouter from "@/router/live";
 import personalRouter  from "@/router/personal";
-
+import  creation from "@/router/creation"
 const routes = [
     {
         path: '/',
-        redirect: '/index'
+        name:'/',
+        redirect: ''
     },
     {
         path: "",
@@ -19,7 +20,7 @@ const routes = [
         children:[
             {
                 path: '',
-                name: 'home',
+                name: 'Home',
                 meta: {
                   title: '首页',
                   requireAuth: false,
@@ -30,7 +31,15 @@ const routes = [
             ...personalRouter,
             ...liveRouter
         ]
-    }, 
+    },
+    {
+        path: "/creation",
+        name: "Creation",
+        component: () => import('@/views/creation/Layout.vue'),
+        children:[
+            ...creation
+        ]
+    },
     {
         path: '/:pathMatch(.*)*',
         name: 'NotFound',

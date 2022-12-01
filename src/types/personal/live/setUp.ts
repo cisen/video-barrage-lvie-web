@@ -1,10 +1,6 @@
-export  interface  liveInformation {
-    imageUrl: string,
-    interface : string, //上传接口名
-    uploadUrl: string, //上传路径 
+import {FileUpload} from "@/types/idnex"
+export  interface  liveInformation extends FileUpload{
     title : string, //标题
-    uploadType : string, //上传类型
-    action:string,
 }
 
 export interface saveLiveDataReq {

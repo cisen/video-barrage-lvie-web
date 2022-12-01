@@ -12,7 +12,7 @@
                     <SvgIcon name="focus" class="icon"></SvgIcon> 订阅
                 </el-button>
             </div>
-        </div>s
+        </div>
     </div>
 </template>
 

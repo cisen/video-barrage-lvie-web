@@ -1,6 +1,8 @@
 import { useUserStore } from '@/store/main';
-import axios, {AxiosInstance, AxiosError, AxiosRequestConfig, AxiosResponse} from 'axios'
+import router from "@/router"
+import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { ElMessage } from 'element-plus';
+import { FileUpload } from '@/types/idnex';
 // 数据返回的接口
 // 定义请求响应参数，不含data
 interface Result {
@@ -18,7 +20,8 @@ const URL: string = "http://localhost:8080";
 enum RequestEnums {
   TIMEOUT = 20000,
   SUCCESS = 200, // 请求成功
-  OPERATIONFail = 500, // 操作失败
+  OPERATIONFAIL = 500, // 操作失败
+  NOTLOGIN = 303, // 操作失败
   FAIL = 999, // 请求失败
 }
 const config = {
@@ -34,7 +37,8 @@ const userInfo = useUserStore()
 class RequestHttp {
   // 定义成员变量并指定类型
   service: AxiosInstance;
-  public constructor(config: AxiosRequestConfig , user : any) {
+  public constructor(config: AxiosRequestConfig, user: any) {
+
     // 实例化axios
     this.service = axios.create(config);
 
@@ -65,23 +69,24 @@ class RequestHttp {
      */
     this.service.interceptors.response.use(
       (response: AxiosResponse) => {
-        const {data, config} = response; // 解构
-        if(data.code == RequestEnums.OPERATIONFail){
-            // ElMessage({
-            //     message: data.message,
-            //     type: 'warning',
-            // })
-            return Promise.reject(data);
+        const { data, config } = response; // 解构
+        if (data.code == RequestEnums.OPERATIONFAIL) {
+          // ElMessage({
+          //     message: data.message,
+          //     type: 'warning',
+          // })
+          return Promise.reject(data);
         }
-
-        // if (data.code === RequestEnums.OVERDUE) {
-        //   // 登录信息失效，应跳转到登录页面，并清空本地的token
-        //   localStorage.setItem('token', '');
-        //   // router.replace({
-        //   //   path: '/login'
-        //   // })
-        //   return Promise.reject(data);
-        // }
+        console.log(user.userInfoData)
+        console.log(data)
+        if (data.code === RequestEnums.NOTLOGIN) {
+          // 登录信息失效，应跳转到登录页面，并清空本地的token
+          userInfo.userInfoData.token = ""
+          router.push({
+            path: '/login'
+          })
+          return Promise.reject(data);
+        }
         // 全局错误信息拦截（防止下载文件得时候返回数据流，没有code，直接报错）
         if (data.code && data.code !== RequestEnums.SUCCESS) {
           ElMessage.error(data); // 此处也可以使用组件提示报错信息
@@ -90,7 +95,7 @@ class RequestHttp {
         return data;
       },
       (error: AxiosError) => {
-        const {response} = error;
+        const { response } = error;
         if (response) {
           this.handleCode(response.status)
         }
@@ -104,9 +109,9 @@ class RequestHttp {
       }
     )
   }
-  
-  handleCode(code: number):void {
-    switch(code) {
+
+  handleCode(code: number): void {
+    switch (code) {
       case 401:
         ElMessage.error('登录失败，请重新登录');
         break;
@@ -118,25 +123,30 @@ class RequestHttp {
 
   // 常用方法封装
   get<T>(url: string, params?: object): Promise<ResultData<T>> {
-    return this.service.get(url, {params});
+    return this.service.get(url, { params });
   }
   post<T>(url: string, params?: object): Promise<ResultData<T>> {
     return this.service.post(url, params);
   }
-  upload<T>(url: string, params?: object): Promise<ResultData<T>> {
-    return this.service.post(url, params,{
+  upload<T>(url: string, params: object, uploadConfig: FileUpload): Promise<ResultData<T>> {
+    return this.service.post(url, params, {
       headers: {
         'Content-Type': 'multipart/form-data'
       },
+      onUploadProgress: ProgressEvent => {
+        if (!ProgressEvent?.total) return;
+        //计算进度条
+        uploadConfig.progress = Math.round(ProgressEvent.loaded / ProgressEvent?.total * 100)
+      }
     });
   }
   put<T>(url: string, params?: object): Promise<ResultData<T>> {
     return this.service.put(url, params);
   }
   delete<T>(url: string, params?: object): Promise<ResultData<T>> {
-    return this.service.delete(url, {params});
+    return this.service.delete(url, { params });
   }
 }
 
 // 导出一个实例对象
-export default new RequestHttp(config,userInfo);
+export default new RequestHttp(config, userInfo);
