@@ -62,7 +62,7 @@ export const useUserInfoMethod = (form: UserInfoRes) => {
 
 
 //表单验证
-export const useRoles = () => {
+export const useRules = () => {
     const userInfoRules = reactive({
         username: [{ validator: validateRepeatName, trigger: 'change' }],
     });

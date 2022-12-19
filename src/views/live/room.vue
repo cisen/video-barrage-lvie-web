@@ -1,5 +1,5 @@
 <template>
-  <div class="overall" >
+  <div class="overall">
     <div class="head animate__animated animate__slideInDown">
       <div class="common-row">
         <el-row :gutter="20">
@@ -19,20 +19,24 @@
     </div>
 
     <div class="content">
-    <div class="content-row">
-      <h3>Ta 的动态</h3>
-      <el-row :gutter="20">
+      <div class="content-row">
+        <h3>Ta 的专栏</h3>
+        <el-row :gutter="20">
           <el-col :span="16">
             <div class="dynamic-box">
-              <div class="dynamic"><Dynamic/></div>
+              <div class="dynamic">
+                <Column :roomID="Number(route.query.roomID)" />
+              </div>
             </div>
           </el-col>
           <el-col :span="8">
-            <div class="recommended"><Announcement/></div>
+            <div class="recommended">
+              <Announcement />
+            </div>
           </el-col>
-        </el-row>   
-    </div>
-   
+        </el-row>
+      </div>
+
     </div>
   </div>
 </template> 
@@ -40,7 +44,7 @@
 import LiveHeader from "@/components/LiveBroadcast/liveHeader.vue"
 import Side from "@/components/LiveBroadcast/side.vue";
 import Announcement from "@/components/LiveBroadcast/announcement.vue";
-import Dynamic from "@/components/LiveBroadcast/dynamic.vue";
+import Column from "@/components/LiveBroadcast/column.vue";
 import DPlayer from "dplayer"
 import { useLiveRoomProp, useWebSocket, useInit } from "@/hooks/live/useLiveRoom"
 import { onMounted, ref } from "vue";
@@ -48,19 +52,18 @@ import { onMounted, ref } from "vue";
 components: {
   LiveHeader
   Side
-  Dynamic
+  Column
   Announcement
 }
 const sideRef = ref()
 var dp: DPlayer //播放器配置对象
-const { videoRef, userStore } = useLiveRoomProp()
+const { videoRef, userStore , route ,  router , roomID } = useLiveRoomProp()
 const sendMessage = ref((tset: string) => {
 })
 
 onMounted(async () => {
-  dp = await useInit(videoRef) as DPlayer
-  sendMessage.value = useWebSocket(dp, userStore, sideRef).sendMessage
-  console.log(sideRef.value)
+  dp = await useInit(videoRef,route , router, roomID) as DPlayer
+  sendMessage.value = useWebSocket(dp, userStore, sideRef,roomID).sendMessage
 })
 
 </script>

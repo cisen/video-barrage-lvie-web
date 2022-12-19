@@ -10,3 +10,12 @@ export interface getUploadingMethodRrs {
 export interface  getOssConfigdRrq  {
     interface : string
 }
+
+export interface  getOssConfigdRrq  {
+    interface : string
+}
+
+export interface getFullPathOfImageRrq {
+    path :string
+    type : string
+}

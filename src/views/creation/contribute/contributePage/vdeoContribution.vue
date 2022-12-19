@@ -1,9 +1,10 @@
 <template>
-    <div class="vdeo-contribution">
-        <div class="upload-box">
+    <div class="vdeo-contribution ">
+        <div class="upload-box animate__animated animate__bounceIn" v-show="!form.isShow">
             <el-upload class="upload" drag action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
                 multiple :on-success="handle.handleFileSuccess" :on-error="handle.handleFileError"
-                :before-upload="handle.beforeFileUpload" :auto-upload="true" :http-request="handle.RedefineUploadFile">
+                :show-file-list="false" :before-upload="handle.beforeFileUpload" :auto-upload="true"
+                :http-request="handle.RedefineUploadFile">
                 <el-icon class="el-icon--upload">
                     <upload-filled />
                 </el-icon>
@@ -22,107 +23,82 @@
                 </div>
             </el-upload>
         </div>
-
-        <div class="form-box" v-show="!form.isShow"> 
-        <p>文件上传进度</p>
-             <el-progress :text-inside="true" :stroke-width="16" :percentage="uploadFileformation.progress" />
+        <div class="form-box animate__animated animate__bounceIn" v-show="form.isShow">
+            <p>文件上传进度</p>
+            <el-progress :text-inside="true" :stroke-width="16" :percentage="uploadFileformation.progress" />
             <h3> 基本设置</h3>
 
-            <el-form :model="form" label-width="120px" label-position="left">
-                <el-form-item label="标题">
-                    <el-input v-model="form.title" />
+            <el-form :model="form" ref="ruleFormRef"  label-width="120px" label-position="left"  :rules="videoContributionRules">
+                <el-form-item class="form-item-middle" label="封面">
+                    <el-upload class="cover-uploader" :action="uploadCoveration.action" :show-file-list="false"
+                        :on-success="handleCover.handleFileSuccess" :on-error="handleCover.handleFileError"
+                        :before-upload="handleCover.beforeFileUpload" :auto-upload="true"
+                        :http-request="handleCover.RedefineUploadFile">
+                        <img v-if="uploadCoveration.FileUrl" :src="uploadCoveration.FileUrl" class="cover" />
+                        <el-icon v-else class="cover-uploader-icon">
+                            <Plus />
+                        </el-icon> 
+                    </el-upload>
+                </el-form-item>
+                <el-form-item label="标题" prop="title"> 
+                    <el-input v-model="form.title" placeholder="给视频起个标题吧~" />
                 </el-form-item>
                 <el-form-item label="类型">
                     <el-radio-group v-model="form.type">
-                        <el-radio label="自制" />
-                        <el-radio label="转载" />
+                        <el-radio :label="false">自制</el-radio>
+                        <el-radio :label="true">转载</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="定时发布">
                     <el-switch v-model="form.timing" />
                 </el-form-item>
-                <el-form-item label="选择时间" v-show="form.timing" class="animate__animated animate__bounceIn">
+                <el-form-item label="选择时间" v-show="form.timing" class="animate__animated animate__fadeIn">
                     <el-col :span="7">
-                        <el-date-picker v-model="form.date1" type="date" placeholder="选择日期" style="width: 100%" />
-                    </el-col>
-                    <el-col :span="1" class="text-center">
-                        <span class="text-gray-500">-</span>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-time-picker v-model="form.date2" placeholder="选择时间" style="width: 100%" />
+                        <el-date-picker v-model="form.date1time" type="datetime" placeholder="请选择定时发布时间" />
                     </el-col>
                 </el-form-item>
-                <el-form-item label="标签">
-                    <el-input v-model="form.label" />
+                <el-form-item label="标签" class="label-box">
+                    <el-tag v-for="tag in form.label" :key="tag" closable :disable-transitions="false"
+                        class="label-item" @close="labelHandl.handleClose(tag)">
+                        {{ tag }}
+                    </el-tag>
+                    <el-input v-if="form.labelInputVisible" ref="labelInputRef" v-model="form.labelText" size="small"
+                        class="label-input" @keyup.enter="labelHandl.handleInputConfirm"
+                        @blur="labelHandl.handleInputConfirm" />
+                    <el-button class="label-btn" v-else size="small" @click="labelHandl.showInput">
+                        + New Tag
+                    </el-button>
                 </el-form-item>
-
-                <el-form-item label="介绍">
-                    <el-input resize="none" maxlength="2000" rows="4" v-model="form.introduce" type="textarea" />
-                </el-form-item>
+                <el-form-item label="介绍" class="form-item-middle" prop="introduce">
+                    <el-input resize="none" maxlength="2000" rows="4" v-model="form.introduce" type="textarea"
+                        placeholder="填写更全面的相关信息，让更多的人能找到你的视频吧" />
+                </el-form-item> 
                 <el-form-item>
-                    <el-button type="primary" @click="onSubmit">提交</el-button>
+                    <el-button type="primary" @click="useSaveData(form,uploadFileformation,uploadCoveration,ruleFormRef,router)">提交</el-button>
                 </el-form-item>
             </el-form>
         </div>
-
     </div>
-
 </template>
   
 <script setup lang="ts">
-import { useVdeoContributionProp, useHandleFileMethod, useInit } from "@/hooks/creation/contribute/contributePage/useVdeoContribution"
+ import { useVdeoContributionProp, useHandleFileMethod, useInit, useHandleCoverMethod, userLabelHandlMethod, useSaveData ,useRules} from "@/hooks/creation/contribute/contributePage/useVdeoContribution"
 import { UploadFilled, Upload } from '@element-plus/icons-vue'
-import { onMounted, reactive } from 'vue';
+import { nextTick, onMounted, reactive, ref } from 'vue';
+import { Plus } from '@element-plus/icons-vue'
+import { ElInput, FormInstance } from 'element-plus'
 
-const { userStore, form, uploadFileformation } = useVdeoContributionProp()
+const { form, uploadFileformation, uploadCoveration, labelInputRef,router,ruleFormRef} = useVdeoContributionProp()
 const handle = useHandleFileMethod(uploadFileformation, form)
-
-const onSubmit = () => {
-    console.log(123)
-}
-
-
+const handleCover = useHandleCoverMethod(uploadCoveration, form)
+const labelHandl = userLabelHandlMethod(form, labelInputRef)
+const {videoContributionRules}  = useRules()
+ 
 onMounted(() => {
-    useInit(uploadFileformation)
+    useInit(uploadFileformation, uploadCoveration)
 })
 </script>
 
 <style scoped lang="scss">
-.vdeo-contribution {
-    margin: 0 auto;
-    max-width: 70%;
-    padding-top: 16px;
-    padding-bottom: 16px;
-
-    .upload-box {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        .upload {
-            width: 100%;
-
-            .upload-btn {
-                margin-top: 2rem;
-            }
-
-            .upload-audit {
-                margin-top: 1.4rem;
-                font-size: 14px;
-                color: #999;
-
-                .tag {
-                    margin-left: 6px;
-                }
-            }
-        }
-
-    }
-
-    .form-box {
-        text-align: initial;
-    }
-}
+@import "@/assets/styles/views/creation/contribute/contributePage/vdeoContribution.scss";
 </style>

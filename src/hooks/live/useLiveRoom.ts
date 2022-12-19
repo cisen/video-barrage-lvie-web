@@ -1,21 +1,30 @@
 
 import DPlayer, { DPlayerDanmaku } from "dplayer";
+import Swal from 'sweetalert2'
+import globalScss from "@/assets/styles/global/export.module.scss"
 import { reactive, Ref, ref } from "vue";
 import flvJs from "flv.js";
 import { decodeMessage } from "@/proto/pb/live"
-import { webClientBarrageDeal, webClientEnterLiveRoomDeal,webClientHistoricalBarrageRes } from "@/hooks/live/useSocketFun"
+import { webClientBarrageDeal, webClientEnterLiveRoomDeal, webClientHistoricalBarrageRes } from "@/hooks/live/useSocketFun"
+import { useRoute, RouteLocationNormalizedLoaded ,useRouter , Router } from "vue-router"
 import { useUserStore } from "@/store/main";
 export const useLiveRoomProp = () => {
+  const route = useRoute()
+  const router = useRouter()
   const videoRef = ref()
   const userStore = useUserStore()
+  const roomID = ref<number>(0)
 
   return {
+    route,
+    router,
     videoRef,
-    userStore
+    userStore,
+    roomID
   }
 }
 
-export const useWebSocket = (dp: DPlayer, userStore: any, sideRef: Ref<any>) => {
+export const useWebSocket = (dp: DPlayer, userStore: any, sideRef: Ref<any> , roomID : Ref<Number>) => {
   let socket: WebSocket
   const initWebSocket = (() => {
     const open = () => {
@@ -26,7 +35,7 @@ export const useWebSocket = (dp: DPlayer, userStore: any, sideRef: Ref<any>) => 
     }
     const getMessage = async (msg: any) => {
       console.log(msg.data)
-
+      //转义uint8ARRAY
       const reader = new FileReader();
       reader.readAsArrayBuffer(msg.data);
       reader.onload = function (e) {
@@ -36,36 +45,26 @@ export const useWebSocket = (dp: DPlayer, userStore: any, sideRef: Ref<any>) => 
           case "webClientBarrageRes":
             webClientBarrageDeal(response, dp, sideRef)
             break;
-          default:
+
           case "webClientEnterLiveRoomRes":
             webClientEnterLiveRoomDeal(response, dp, sideRef)
             break;
           case "webClientHistoricalBarrageRes":
             webClientHistoricalBarrageRes(response, dp, sideRef)
             break;
-            console.error("未支持的消息类型")
+          default: console.error("未支持的消息类型")
             break;
 
         }
         console.log(response)
       }
-
-
-      // // console.log(msg)
-      // // let buf =  new TextEncoder().encode(await msg.data.text()) 
-      // // console.log(buf)
-      // const barrageDecode = decodeMessage(new Uint8Array(msg.data))
-      // console.log(barrageDecode)
-      // // const data = decodeMessage(buf)
-      // // console.log(data)
-
     }
 
     if (typeof (WebSocket) === "undefined") {
       alert("您的浏览器不支持socket")
     } else {
       // 实例化socket
-      socket = new WebSocket("ws://localhost:8080/ws/liveSocket?token=" + userStore.userInfoData.token + "&liveRoom=31")
+      socket = new WebSocket("ws://localhost:8080/ws/liveSocket?token=" + userStore.userInfoData.token + "&liveRoom=" + roomID.value)
       // 监听socket连接
       socket.onopen = open
       // 监听socket错误信息
@@ -88,8 +87,24 @@ export const useWebSocket = (dp: DPlayer, userStore: any, sideRef: Ref<any>) => 
 }
 
 
-export const useInit = async (videoRef: Ref) => {
+export const useInit = async (videoRef: Ref, route: RouteLocationNormalizedLoaded, Router : Router, roomID: Ref<Number> ,) => {
   try {
+    //绑定房间
+    if (!route.query.roomID) {
+      Router.back()
+      Swal.fire({
+        title: "访问房间失败",
+        heightAuto: false,
+        confirmButtonColor: globalScss.colorButtonTheme,
+        icon: "error",
+      })
+      Router.back()
+      return
+    }
+
+
+    roomID.value =  Number(route.query.roomID)
+    //初始化播放器
     console.log(videoRef)
     const dp = new DPlayer({
       container: videoRef.value, // 容器

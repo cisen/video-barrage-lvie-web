@@ -102,6 +102,12 @@ export const useInit = async (uploadAvatarForm: uploadAvatar) => {
 
     } catch (err) {
         console.log(err)
+        Swal.fire({
+            title: "获取上传方法失败",
+            heightAuto: false,
+            confirmButtonColor: globalScss.colorButtonTheme,
+            icon: "error",
+        })
     }
 }
 

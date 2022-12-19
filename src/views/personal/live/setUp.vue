@@ -47,14 +47,14 @@
 <script lang="ts" setup>
 import { Plus } from "@element-plus/icons-vue";
 import { vRemoveFocus } from "@/utils/customInstruction/focus"
-import { useAvatarProp, useHandleFileMethod, useSaveData, useCopy, useRoles, useInit } from "@/hooks/personal/live/useSetUpLive"
+import { useAvatarProp, useHandleFileMethod, useSaveData, useCopy, useRules, useInit } from "@/hooks/personal/live/useSetUpLive"
 import { liveKeyDesensitization } from "@/utils/conversion/stringConversion";
 import { onMounted } from "vue";
 
 
 const { userStore, liveInformationForm, saveDateFormRef, rawData } = useAvatarProp()
 const handle = useHandleFileMethod(liveInformationForm)
-const { liveInformationRules } = useRoles();
+const { liveInformationRules } = useRules();
 
 onMounted(() => {
   useInit(liveInformationForm, rawData)

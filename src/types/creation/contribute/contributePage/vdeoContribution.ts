@@ -1,15 +1,33 @@
-import {FileUpload} from "@/types/idnex"
-export  interface vdeoContributionForm {
-    isShow : boolean , 
+import { FileUpload } from "@/types/idnex"
+import { Ref } from "vue"
+//form 表单结构
+export interface vdeoContributionForm {
+    isShow: boolean,
     title: string,
-    type: string,
-    timing : boolean,
-    date1: string,
-    date2: string,
-    label : string,
+    type: boolean,
+    timing: boolean,
+    date1time: string,
+    labelInputVisible: boolean,
+    labelText: string,
+    label: Array<string>,
     introduce: string,
 }
+//upload
+export interface uploadFileformation extends FileUpload {
 
-export  interface  uploadFileformation extends FileUpload{
+}
+
+//api createVideoContribution 需要结构
+export interface createVideoContributionReq {
+    video: string,
+    videoUploadType: string,
+    cover: string,
+    coverUploadType: string,
+    title: string,
+    reprinted: boolean,
+    timing: boolean,
+    timingTime?: string,
+    label:  Array<string>,
+    introduce: string,
 
 }

@@ -57,7 +57,7 @@
 
     .middle {
         background-color: $color-gray-background;
-        margin-top: 40px;
+        padding-top: 24px;
         width: 100%;
         display: flex;
         
@@ -82,6 +82,7 @@
                 margin-top: 22px;
                 height: 100%;
                 padding-bottom:  30px;      
+                position: relative;
             }
         }
     }

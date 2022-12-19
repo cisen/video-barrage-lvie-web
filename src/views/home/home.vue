@@ -8,7 +8,6 @@
             <el-col :span="18">
               <div class="liv-player">
                 <video id="videoElement" class="" controls autoplay muted></video>
-
               </div>
             </el-col>
             <el-col :span="4">
@@ -31,13 +30,12 @@
         </div>
       </div>
     </div>
-
-    <div class="middle">
+    <div class="middle  animate__animated animate__bounceInUp ">
       <div class="recommended">
         <div class="single">
           <span class="titel">推荐直播</span>
           <div class="content">
-            <Card></Card>  <Card></Card>  <Card></Card> <Card></Card>  <Card></Card>   <Card></Card>   <Card></Card>
+            <Card :roomID="30"></Card>  <Card :roomID="30"></Card>  <Card :roomID="30"></Card> <Card :roomID="30"></Card>  <Card :roomID="30"></Card>   <Card :roomID="30"></Card>   <Card :roomID="30"></Card>
           </div>
 
         </div>

@@ -226,7 +226,7 @@ export const useSendEmail = async (email: string) => {
 }
 
 //表单验证
-export const useRoles = () => {
+export const useRules = () => {
     const loginRules = reactive({
         username: [{ validator: validateUsername, trigger: 'change' }],
         password: [{ validator: validatePassword, trigger: 'change' }]

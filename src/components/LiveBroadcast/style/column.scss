@@ -1,22 +1,24 @@
-.dynamic {
-    .dynamic-list {
+.column {
+    .column-list {
         max-width: 780px;
         // margin: auto;
 
         .shadow-box {
             box-shadow: 0 1px 20px -6px rgba(0, 0, 0, 0.5);
-            transition: all .3s ease;        
-        }
-        .mouseleave {
-            box-shadow: 0 1px 20px -6px rgba(0, 0, 0, 0.5);
-            transition: all .3s ease;    
-        }
-        .mouseover{
-            box-shadow: 0 1px 20px -6px rgba(0, 0, 0, 1);
-            transition: all .3s ease;  
+            transition: all .3s ease;
         }
 
-        .dynamic-item {
+        .mouseleave {
+            box-shadow: 0 1px 20px -6px rgba(0, 0, 0, 0.5);
+            transition: all .3s ease;
+        }
+
+        .mouseover {
+            box-shadow: 0 1px 20px -6px rgba(0, 0, 0, 1);
+            transition: all .3s ease;
+        }
+
+        .column-item {
 
             height: 256px;
             position: relative;
@@ -31,6 +33,8 @@
             border-radius: 10px;
             -webkit-animation: zoomIn .8s ease-in-out;
             animation: zoomIn .8s ease-in-out;
+
+            margin-bottom: 2rem;
 
             .item-image {
                 width: 50%;
@@ -83,8 +87,13 @@
                 .sort-label {
                     position: absolute;
                     bottom: 20px;
+                    display: flex;
 
-                    span {
+                    .lable-item {
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        display: flex;
+                        justify-content: center;
                         padding: 3px 10px;
                         background-color: #eee;
                         border-radius: 3px;

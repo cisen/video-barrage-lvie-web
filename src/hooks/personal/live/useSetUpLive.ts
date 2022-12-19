@@ -6,7 +6,7 @@ import { FormInstance, UploadProps, UploadRequestOptions } from 'element-plus'
 import { useUserStore } from "@/store/main";
 import useClipboard from "vue-clipboard3";
 import globalScss from "@/assets/styles/global/export.module.scss"
-import { validateLiveInformation } from "@/utils/validate/validate";
+import { validateLiveTitle } from "@/utils/validate/validate";
 import { getLocation } from "@/utils/conversion/stringConversion"
 import { uploadFile } from '@/utils/upload/upload';
 import { getuploadingMethod } from "@/apis/commonality"
@@ -66,16 +66,41 @@ export const useHandleFileMethod = (liveInformationForm: liveInformation) => {
 
 
     const beforeFileUpload: UploadProps['beforeUpload'] = async (rawFile) => {
-        if (rawFile.size / 1024 / 1024 > 2) {
-            Swal.fire({
-                title: "文件不符合格式",
-                heightAuto: false,
-                confirmButtonColor: globalScss.colorButtonTheme,
-                icon: "error",
-            })
-            return false
-        }
-        return true
+        return await new Promise<boolean>((resolve, reject) => {
+            //判断大小
+            if (rawFile.size / 1024 / 1024 > 2) {
+                Swal.fire({
+                    title: "封面大小不能大于2M",
+                    heightAuto: false,
+                    icon: "error",
+
+                })
+                reject(false);
+            }
+            //判断尺寸
+            let reader = new FileReader();
+            reader.readAsDataURL(rawFile);
+            reader.onload = () => {
+                // 让页面中的img标签的src指向读取的路径
+                let img = new Image();
+                img.src = reader.result as string;
+                img.onload = () => {
+                    console.log(img.width);
+                    console.log(img.height);
+                    if (img.width < 960 || img.height < 600) {
+                        Swal.fire({
+                            title: "请上传 960*600 尺寸以上图片",
+                            heightAuto: false,
+                            confirmButtonColor: globalScss.colorButtonTheme,
+                            icon: "error",
+                        });
+                        reject(false);
+                    } else {
+                        resolve(true);
+                    }
+                };
+            };
+        })
     }
 
     const RedefineUploadFile = async (params: UploadRequestOptions) => {
@@ -165,6 +190,12 @@ export const useInit = async (liveInformationForm: liveInformation, rawData: get
 
     } catch (err) {
         console.log(err)
+        Swal.fire({
+            title: "获取上传方法失败",
+            heightAuto: false,
+            confirmButtonColor: globalScss.colorButtonTheme,
+            icon: "error",
+        })
     }
 }
 
@@ -187,9 +218,9 @@ export const useCopy = async (text: string) => {
 };
 
 //表单验证
-export const useRoles = () => {
+export const useRules = () => {
     const liveInformationRules = reactive({
-        title: [{ validator: validateLiveInformation, trigger: 'change' }],
+        title: [{ validator: validateLiveTitle, trigger: 'change' }],
     });
     return {
         liveInformationRules,

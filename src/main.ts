@@ -10,6 +10,7 @@ import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import svgIcon from "@/components/SvgIcon/index.vue";
 import 'virtual:svg-icons-register';
+import Particles from "vue3-particles";
 
 
  
@@ -19,6 +20,7 @@ pinia.use(piniaPluginPersistedstate);
 app.use(pinia)
 app.use(router)
 app.use(ElementPlus)
+app.use(Particles) //粒子动画
 
 
 app.component('svg-icon', svgIcon)

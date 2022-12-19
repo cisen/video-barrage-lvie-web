@@ -71,10 +71,44 @@ export const validateUsername = (rule: any, value: any, callback: any) => {
 
 
    //验证直播标题
-   export const validateLiveInformation = async (rule: any, value: any, callback: any) => {
+   export const validateLiveTitle = async (rule: any, value: any, callback: any) => {
     value as string;
     if (value === '') {
       callback(new Error('请输入直播标题'));
+    } else if (value.length < 8 || value.length > 20) {
+      callback(new Error('标题长度需要在8-20位之间'));
+    } else{
+      callback();
+    }
+};
+
+  //验证视频标题
+  export const validateVideoTitle = async (rule: any, value: any, callback: any) => {
+    value as string;
+    if (value === '') {
+      callback(new Error('请输入直播标题'));
+    } else if (value.length < 8 || value.length > 20) {
+      callback(new Error('标题长度需要在8-20位之间'));
+    } else{
+      callback();
+    }
+};
+
+  //验证视频介绍
+  export const validateVideoIntroduce = async (rule: any, value: any, callback: any) => {
+    value as string;
+    if (value === '') {
+      callback(new Error('请输入直播介绍'));
+    }else{
+      callback();
+    }
+};
+
+  //验证视频标题
+  export const validateArticleTitle = async (rule: any, value: any, callback: any) => {
+    value as string;
+    if (value === '') {
+      callback(new Error('请输入文章标题'));
     } else if (value.length < 8 || value.length > 20) {
       callback(new Error('标题长度需要在8-20位之间'));
     } else{

@@ -1,9 +1,26 @@
 .row {
+    position: absolute;
+    z-index: 3;
+    width: 100%;
+
     :deep(.el-menu--horizontal) {
 
         border-bottom: none;
     }
-    .search{
+
+    :deep(.el-menu) {
+        background-color: transparent;
+    }
+
+    .menu-item-white {
+        color: #fff;
+    }
+
+    .menu-item-black {
+        color: #18191C;
+    }
+
+    .search {
         height: 100%;
         display: flex;
         /*实现垂直居中*/
@@ -11,10 +28,18 @@
         /*实现水平居中*/
         justify-content: center;
 
-        :deep(.el-input__wrapper){
+        :deep(.el-input__wrapper) {
             border-radius: 30px;
         }
 
     }
-   
+
+}
+
+.bgColorBlack {
+    background-color: transparent;
+}
+
+.bgColorWhite {
+    background-color: #fff;
 }

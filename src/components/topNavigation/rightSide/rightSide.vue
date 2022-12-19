@@ -8,23 +8,23 @@
     <!-- iocn -->
     <div class="icon-list">
       <div class="icon-item">
-        <SvgIcon name="message" class="icon"></SvgIcon>
-        <p>消息</p>
+        <SvgIcon name="message" class="icon" :color="iconColor"></SvgIcon>
+        <p :style="{ color: iconColor }">消息</p>
       </div>
 
       <div class="icon-item">
-        <SvgIcon name="dynamic" class="icon"></SvgIcon>
-        <p>动态</p>
+        <SvgIcon name="dynamic" class="icon" :color="iconColor"></SvgIcon>
+        <p :style="{ color: iconColor }">动态</p>
       </div>
 
       <div class="icon-item">
-        <SvgIcon name="history" class="icon"></SvgIcon>
-        <p>历史</p>
+        <SvgIcon name="history" class="icon" :color="iconColor"></SvgIcon>
+        <p :style="{ color: iconColor }">历史</p>
       </div>
 
       <div class="icon-item" @click="jump('Creation')">
-        <SvgIcon name="creation" class="icon"></SvgIcon>
-        <p>创作</p>
+        <SvgIcon name="creation" class="icon" :color="iconColor"></SvgIcon>
+        <p :style="{ color: iconColor }"> 创作</p>
       </div>
 
     </div>
@@ -84,6 +84,14 @@ const userInfo = useUserStore();
 const router = useRouter()
 const dialogTableVisible = ref(false);
 let nextIndex = ref(1);
+
+const emit = defineProps({
+  iconColor: {
+    type: String,
+    default: '#18191C',
+  }
+}
+)
 
 const nextStep = () => {
   if (nextIndex.value >= 3) {

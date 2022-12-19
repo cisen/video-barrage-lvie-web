@@ -8,9 +8,9 @@
                 <p class="live-titel"> {{ titel }} </p>
             </div>
             <div class="info-right">
-                <el-button type="primary" round>
-                    <SvgIcon name="focus" class="icon"></SvgIcon> 订阅
-                </el-button>
+                <el-button type="primary" :icon="Star" circle />
+                <el-button type="primary" :icon="Warning" circle />
+                <el-button type="primary" :icon="Position" circle />
             </div>
         </div>
     </div>
@@ -18,6 +18,13 @@
 
 
 <script setup  lang="ts">
+
+import {
+
+  Position,
+  Warning,
+  Star,
+} from '@element-plus/icons-vue'
 
 defineProps({
     src: {

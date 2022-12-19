@@ -168,7 +168,7 @@ import {
   useLoginProp,
   useLoginMethod,
   useForgetrMethod,
-  useRoles,
+  useRules,
   useRegisterMethod,
 } from "@/hooks/login/useLogin";
 
@@ -189,7 +189,7 @@ const {
 
 console.log(currentModel);
 
-const { loginRules, registerRules, forgetRules } = useRoles();
+const { loginRules, registerRules, forgetRules } = useRules();
 const { login } = useLoginMethod(userStore, router, loginForm);
 const { register } = useRegisterMethod(userStore, router, regForm);
 const { forfet } = useForgetrMethod(forgetForm, currentModel);

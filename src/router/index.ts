@@ -7,6 +7,7 @@ import {ElMessage} from "element-plus";
 import liveRouter from "@/router/live";
 import personalRouter  from "@/router/personal";
 import  creation from "@/router/creation"
+import  creationShow from "@/router/creationShow"
 const routes = [
     {
         path: '/',
@@ -29,7 +30,7 @@ const routes = [
                 component: () => import('@/views/home/home.vue')
             },
             ...personalRouter,
-            ...liveRouter
+            ...liveRouter,
         ]
     },
     {
@@ -51,8 +52,8 @@ const routes = [
         name: "Login",
         component: () => import('@/views/login/login.vue'),
     },
-   
-    
+    ...creationShow
+     
 ];
 
 const router = createRouter({
