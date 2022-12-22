@@ -87,5 +87,5 @@ const handleSelect = (key: string, keyPath: string[]) => {
 </script>
 
 <style scoped lang="scss">
-@import "./style/personalNavigation.scss";
+@import "./static/style/personalNavigation.scss";
 </style>

@@ -10,6 +10,7 @@ declare module '@vue/runtime-core' {
     Announcement: typeof import('./src/components/LiveBroadcast/announcement.vue')['default']
     Card: typeof import('./src/components/homeVideoList/card.vue')['default']
     Column: typeof import('./src/components/LiveBroadcast/column.vue')['default']
+    CommentPosting: typeof import('./src/components/commentPosting/commentPosting.vue')['default']
     CreationlNavigation: typeof import('./src/components/creationNavigation/creationlNavigation.vue')['default']
     Dynamic: typeof import('./src/components/LiveBroadcast/dynamic.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']

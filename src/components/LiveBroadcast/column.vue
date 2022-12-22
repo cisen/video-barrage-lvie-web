@@ -52,7 +52,7 @@ import { onMounted, reactive, ref } from 'vue';
 import dayjs from "dayjs"
 import { useRouter } from 'vue-router';
 
-const emit = defineProps({
+const props = defineProps({
     roomID: {
         type: Number,
         required: true,
@@ -72,9 +72,9 @@ const mouseleave = (item: GetArticleContributionListByUserResItem) => {
 
 const init = async () => {
     try {
-        console.log(emit)
+        console.log(props)
         let requistData = <GetArticleContributionListByUserReq>{
-            userID: emit.roomID
+            userID: props.roomID
         }
         const response = await getArticleContributionListByUser(requistData)
         //加上是否停留鼠标
@@ -99,5 +99,5 @@ onMounted(() => {
 })
 </script>
 <style scoped lang="scss">
-@import "./style/column.scss"
+@import "./static/style/column.scss"
 </style>

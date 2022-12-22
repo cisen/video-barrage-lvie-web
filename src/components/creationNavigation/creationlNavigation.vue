@@ -88,5 +88,5 @@ const jump = (name: string) => {
 </script>
 
 <style scoped lang="scss">
-@import "./style/creationNavigation.scss";
+@import "./static/style/creationNavigation.scss";
 </style>

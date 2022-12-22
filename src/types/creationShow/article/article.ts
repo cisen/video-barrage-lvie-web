@@ -1,18 +1,55 @@
-export interface  GetArticleContributionByIDReq{
-    articleID : number
+export interface GetArticleContributionByIDReq {
+    articleID: number
 
 }
-export interface  GetArticleContributionByIDRes{
+export interface Comments {
+    id: number
+    comment_id: number
+    created_at: string
+    context: string
+    uid: number
+    username: string
+    photo: string
+    lowerComments: any
+}
+
+
+type commentsList = Array<Comments>
+export interface GetArticleContributionByIDRes {
     id: number
     uid: number
-    title: string 
+    title: string
     cover: string
     label: Array<string>
     content: string
     is_comments: boolean
     heat: number
     likes_number: number
+    comments: commentsList
     comments_number: number
     created_at: string
-    is_stay : boolean
+    is_stay: boolean
+}
+
+export interface ArticlePostCommentReq {
+    article_id: number
+    content: string
+    content_id: number
+}
+
+//页面中评论相关
+export interface CommentsInfo{
+    comments : string,
+    commentsID : number
+}
+
+export interface GetArticleCommentReq {
+    articleID: number
+
+}
+
+export interface GetArticleCommentRes {
+    id: number
+    comments: commentsList
+    comments_number: number
 }

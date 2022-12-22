@@ -147,5 +147,5 @@ onMounted: {
 </script>
 
 <style scoped lang="scss">
-@import "../style/rightSide.scss";
+@import "../static/style/rightSide.scss";
 </style>

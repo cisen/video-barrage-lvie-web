@@ -16,5 +16,5 @@ defineProps({
 })
 </script>
 <style scoped lang="scss">
-@import "./style/pageHeader.scss";
+@import "./static/style/pageHeader.scss";
 </style> 

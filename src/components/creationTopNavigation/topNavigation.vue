@@ -2,7 +2,7 @@
   <el-row class="row ">
     <el-col :span="2">
       <div class="left">
-        <img class="center-for-creators" src="./img/centerForCreators.png" />
+        <img class="center-for-creators" src="./static/img/centerForCreators.png" />
       </div>
     </el-col>
     <el-col :span="16">
@@ -44,5 +44,5 @@ const handleSelect = (key: string, keyPath: string[]) => {
 </script>
 
 <style scoped lang="scss">
-@import "./style/topNavigation.scss";
+@import "./static/style/topNavigation.scss";
 </style>

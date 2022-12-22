@@ -8,17 +8,18 @@ import { getFullPathOfImage, getuploadingMethod } from "@/apis/commonality"
 import { getUploadingMethodRrq, getUploadingMethodRrs } from "@/types/commonality/commonality"
 import { uploadFileformation } from "@/types/creation/contribute/contributePage/vdeoContribution"
 import { QuillOptionsStatic } from 'quill';
-import { articleContribution, createArticleContributionReq } from '@/types/creation/contribute/contributePage/articleContribution';
+import { ArticleContribution, AreateArticleContributionReq } from '@/types/creation/contribute/contributePage/articleContribution';
 import { validateArticleTitle } from '@/utils/validate/validate';
 import { timetoRFC3339 } from '@/utils/conversion/timeConversion';
 import { createArticleContribution } from '@/apis/contribution';
+import hljs from 'highlight.js';
 
 export const useArticleContributionProp = () => {
     const router = useRouter()
     //富文本组件ref
     const myQuillEditor = ref()
     //内容
-    const form = reactive(<articleContribution>{
+    const form = reactive(<ArticleContribution>{
         isShow: true,
         title: "",
         content: "",
@@ -37,6 +38,7 @@ export const useArticleContributionProp = () => {
                 container: [
                     [{ size: ["small", false, "large"] }],
                     ["bold", "italic", "underline"],
+                    ['code-block'],
                     [{ header: 1 }, { header: 2 }],
                     [{ list: "ordered" }, { list: "bullet" }],
                     ["link", "image"],
@@ -64,6 +66,9 @@ export const useArticleContributionProp = () => {
                 maxStack: 50,
                 userOnly: false
             },
+            syntax: {
+                highlight: (text: string) => hljs.highlightAuto(text).value
+              },
         },
     });
     //上传组件ref
@@ -116,7 +121,7 @@ export const useArticleContributionProp = () => {
 }
 
 //上传文件处理
-export const useHandleFileMethod = (uploadFileformation: uploadFileformation, form: articleContribution, myQuillEditor: Ref, uploadProgressRef: Ref) => {
+export const useHandleFileMethod = (uploadFileformation: uploadFileformation, form: ArticleContribution, myQuillEditor: Ref, uploadProgressRef: Ref) => {
 
     const handleFileSuccess: UploadProps['onSuccess'] = async (
         response,
@@ -289,7 +294,7 @@ export const useHandleCoverMethod = (uploadCoveration: uploadFileformation) => {
 }
 
 //标签处理
-export const userLabelHandlMethod = (form: articleContribution, labelInputRef: Ref) => {
+export const userLabelHandlMethod = (form: ArticleContribution, labelInputRef: Ref) => {
     const handleClose = (tag: string) => {
         form.label.splice(form.label.indexOf(tag), 1)
     }
@@ -316,7 +321,7 @@ export const userLabelHandlMethod = (form: articleContribution, labelInputRef: R
     }
 
 }
-export const useSaveData = async (form: articleContribution, formEl: FormInstance | undefined, router: Router, uploadFileformation: uploadFileformation, uploadCoveration: uploadFileformation) => {
+export const useSaveData = async (form: ArticleContribution, formEl: FormInstance | undefined, router: Router, uploadFileformation: uploadFileformation, uploadCoveration: uploadFileformation) => {
     if (!formEl) return;
     await formEl.validate(async (valid, fields) => {
         if (valid) {
@@ -325,7 +330,7 @@ export const useSaveData = async (form: articleContribution, formEl: FormInstanc
                 if (!form.timing) {
                     form.date1time = timetoRFC3339(new Date())
                 }
-                let requistData = <createArticleContributionReq>{
+                let requistData = <AreateArticleContributionReq>{
                     cover: uploadCoveration.uploadUrl,
                     coverUploadType: uploadCoveration.uploadType,
                     articleContributionUploadType: uploadFileformation.uploadType,

@@ -1,8 +1,9 @@
+
 import { Router, useRouter, useRoute, RouteLocationNormalizedLoaded } from 'vue-router';
-import { GetArticleContributionByID } from "@/apis/contribution"
+import { getArticleContributionByID } from "@/apis/contribution"
 import { GetArticleContributionByIDReq, GetArticleContributionByIDRes } from "@/types/creationShow/article/article"
 import { blossom } from "@/utils/effect/blossom"
-import { Ref, UnwrapNestedRefs, reactive, ref } from "vue"
+import { Ref, reactive, ref } from "vue"
 import globalScss from "@/assets/styles/global/export.module.scss"
 import Swal from 'sweetalert2';
 
@@ -12,14 +13,21 @@ export const useArticleShowProp = () => {
     const router = useRouter()
     const route = useRoute()
 
+    //回复二级评论
+    const replyCommentsDialog = reactive({
+        show: false,
+        comments: "",
+        commentsID: 0,
+    })
+
     return {
         articleID,
         articleInfo,
         router,
-        route
+        route,
+        replyCommentsDialog,
     }
 }
-
 export const useInit = async (articleID: Ref<number>, articleInfo: Ref<GetArticleContributionByIDRes>, route: RouteLocationNormalizedLoaded, router: Router) => {
     try {
         if (!route.query.articleID) {
@@ -43,12 +51,12 @@ export const useInit = async (articleID: Ref<number>, articleInfo: Ref<GetArticl
             canvasSnow.height = String(window.innerHeight);
         }
         //获取文章内容
-        const response = await GetArticleContributionByID(<GetArticleContributionByIDReq>{
+        const response = await getArticleContributionByID(<GetArticleContributionByIDReq>{
             articleID: articleID.value
         })
-        if(!response.data) throw "文章内容为空"
+        if (!response.data) throw "文章内容为空"
         articleInfo.value = response.data
-        
+
     } catch (err) {
         console.log(err)
     }

@@ -1,5 +1,5 @@
 //form 表单结构
-export interface articleContribution {
+export interface ArticleContribution {
     isShow : boolean
     title : string
     content : string
@@ -12,7 +12,7 @@ export interface articleContribution {
 }
 
 //api createArticleContribution 需要结构
-export interface createArticleContributionReq {
+export interface AreateArticleContributionReq {
     cover: string,
     coverUploadType: string,
     articleContributionUploadType : string,

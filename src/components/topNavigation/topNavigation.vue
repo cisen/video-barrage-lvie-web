@@ -87,5 +87,5 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-@import "./style/topNavigation.scss";
+@import "./static/style/topNavigation.scss";
 </style>

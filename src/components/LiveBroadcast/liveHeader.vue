@@ -42,5 +42,5 @@ defineProps({
 
 
 <style scoped lang="scss">
-@import "./style/liveHeader.scss"
+@import "./static/style/liveHeader.scss"
 </style>

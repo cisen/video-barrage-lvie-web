@@ -1,7 +1,7 @@
 <template>
     <div class="article-contribution">
         <!-- 基本设置 -->
-        <div class="form-box animate__animated animate__bounceIn" v-show="form.isShow">
+        <div class="form-box animate__animated animate__bounceInRight" v-show="form.isShow">
             <h3> 基本设置</h3>
             <el-form :model="form" ref="ruleFormRef" label-width="120px" label-position="left" :rules="rules.articleContributionRules">
                 <el-form-item label="标题" prop="title">
@@ -77,6 +77,7 @@
 
 <script setup lang="ts">
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import 'highlight.js/styles/agate.css'
 import { QuillEditor } from '@vueup/vue-quill'
 import { Plus, Edit } from '@element-plus/icons-vue'
 import { vRemoveFocus } from "@/utils/customInstruction/focus"

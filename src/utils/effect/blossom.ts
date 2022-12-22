@@ -146,7 +146,7 @@ export const blossom = () => {
         let sakuraList: any
         sakuraList = new SakuraList();
         //控制数量
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 6; i++) {
             let sakura, randomX, randomY, randomS, randomR, randomFnx, randomFny, randomFnR;
             randomX = getRandom('x');
             randomY = getRandom('y');
