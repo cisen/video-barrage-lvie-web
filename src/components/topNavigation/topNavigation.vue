@@ -34,7 +34,6 @@ import { useGlobalStore } from "@/store/main";
 import { useRouter } from "vue-router";
 import { Search } from "@element-plus/icons-vue";
 import { onMounted, ref } from "vue";
-import { max } from "lodash";
 
 const emit = defineProps({
   //是否固定颜色
@@ -84,9 +83,7 @@ const scrollTop = () => {
 
 onMounted(() => {
   // 监听滚动条位置
-  // mianRef.value.style.maxWidth = screen.width + "px"
   window.addEventListener('scroll', scrollTop, true)
-  console.log(elRowRef.value.style)
 })
 
 </script>

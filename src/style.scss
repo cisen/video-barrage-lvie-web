@@ -34,15 +34,20 @@ html, body, #app {
 	background-color: #a1a3a9;
 	border-radius: 3px;
 }
-
-.global-loading{
+.parcel{
 	height: 100%;
-	width: 100%;
+	background-color: $color-gray-background;
 
-	margin: 0 auto;
-    max-width: 100%
-
+	.global-loading{
+		height: 100%;
+		width: 100%;
+		margin: 0 auto;
+		max-width: 100%;
+		background-color: #fff;
+	
+	}
 }
+
 
 @font-face {
 	font-family: 'ZhuZiAWan2';  
