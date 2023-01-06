@@ -1,9 +1,9 @@
 <template>
-  <el-row :class="{ row: true, bgColorBlack: scrollTopNotTop, bgColorWhite: !scrollTopNotTop }">
+  <el-row ref="elRowRef" :class="{ row: true, bgColorBlack: scrollTopNotTop, bgColorWhite: !scrollTopNotTop }" :style="{maxWidth :screenWidth }">
     <el-col :span="1">
       <div class="grid-content ep-bg-purple" />
     </el-col>
-    <el-col :span="12">
+    <el-col :span="13">
       <div class="grid-content ep-bg-purple-light" />
       <div class="live-choose">
         <el-menu :default-active="globaStore.globalData.router.currentRouter" class="el-menu" mode="horizontal"
@@ -19,7 +19,7 @@
         <el-input v-model="searchText" class="w-50 m-2" size="large" placeholder="Please Input" :prefix-icon="Search" />
       </div>
     </el-col>
-    <el-col :span="6">
+    <el-col :span="5">
       <RightSide :icon-color="scrollTopNotTop ? color : '#18191C'"></RightSide>
     </el-col>
     <el-col :span="1">
@@ -34,6 +34,7 @@ import { useGlobalStore } from "@/store/main";
 import { useRouter } from "vue-router";
 import { Search } from "@element-plus/icons-vue";
 import { onMounted, ref } from "vue";
+import { max } from "lodash";
 
 const emit = defineProps({
   //是否固定颜色
@@ -61,6 +62,9 @@ const globaStore = useGlobalStore()
 const router = useRouter();
 const searchText = ref("");
 const scrollTopNotTop = ref(true) // 滚动条是否在顶部
+const elRowRef = ref()
+//屏幕最大宽
+const screenWidth = screen.width + 'px'
 //选项卡点击
 const handleSelect = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
@@ -80,7 +84,9 @@ const scrollTop = () => {
 
 onMounted(() => {
   // 监听滚动条位置
+  // mianRef.value.style.maxWidth = screen.width + "px"
   window.addEventListener('scroll', scrollTop, true)
+  console.log(elRowRef.value.style)
 })
 
 </script>
