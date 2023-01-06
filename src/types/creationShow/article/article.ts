@@ -1,3 +1,5 @@
+import { PageInfo } from "@/types/idnex"
+
 export interface GetArticleContributionByIDReq {
     articleID: number
 
@@ -7,6 +9,8 @@ export interface Comments {
     comment_id: number
     created_at: string
     context: string
+    comment_user_id : number
+    comment_user_name : string
     uid: number
     username: string
     photo: string
@@ -44,6 +48,7 @@ export interface CommentsInfo{
 }
 
 export interface GetArticleCommentReq {
+    pageInfo : PageInfo
     articleID: number
 
 }

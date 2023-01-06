@@ -1,43 +1,14 @@
 <template>
   <div class="mian">
     <div class="head">
-      <!-- 顶部直播部分 -->
-      <div class="live-part  animate__animated animate__slideInDown">
-        <div class="liv-window">
-          <el-row>
-            <el-col :span="18">
-              <div class="liv-player">
-                <video id="videoElement" class="" controls autoplay muted></video>
-              </div>
-            </el-col>
-            <el-col :span="4">
-              <div class="optional-list">
-                <div class="list-item">
-                  <img class="item-img" src="@/assets/img/home/background.png" alt="">
-                </div>
-                <div class="list-item">
-                  <img class="item-img" src="@/assets/img/home/background.png" alt="">
-                </div>
-                <div class="list-item">
-                  <img class="item-img" src="@/assets/img/home/background.png" alt="">
-                </div>
-                <div class="list-item">
-                  <img class="item-img" src="@/assets/img/home/background.png" alt="">
-                </div>
-              </div>
-            </el-col>
-          </el-row>
-        </div>
-      </div>
+      <topNavigation color="#fff" :displaySearch="false"></topNavigation>
     </div>
-    <div class="middle  animate__animated animate__bounceInUp ">
+    <!-- 封面图 -->
+    <div class="cover-picture">
+    </div>
+    <div class="middle">
       <div class="recommended">
         <div class="single">
-          <span class="titel">推荐直播</span>
-          <div class="content">
-            <Card :roomID="30"></Card>  <Card :roomID="30"></Card>  <Card :roomID="30"></Card> <Card :roomID="30"></Card>  <Card :roomID="30"></Card>   <Card :roomID="30"></Card>   <Card :roomID="30"></Card>
-          </div>
-
         </div>
       </div>
     </div>
@@ -47,16 +18,17 @@
 <script setup lang="ts">
 import flvJs from "flv.js";
 import Card from "@/components/homeVideoList/card.vue"
-import { onMounted } from "vue";
+import topNavigation from "@/components/topNavigation/topNavigation.vue"
 
-components:{
+components: {
   Card
+  topNavigation
 }
 const play = () => {
   if (flvJs.isSupported()) {
     let videoElement = document.getElementById("videoElement");
     let flvPlayer;
-    flvPlayer = flvJs.createPlayer({ 
+    flvPlayer = flvJs.createPlayer({
       type: "flv",
       isLive: true,
       hasAudio: false,

@@ -10,25 +10,21 @@ import  creation from "@/router/creation"
 import  creationShow from "@/router/creationShow"
 const routes = [
     {
-        path: '/',
-        name:'/',
-        redirect: ''
+        path: '',
+        name: 'Home',
+        meta: {
+          title: '首页',
+          requireAuth: false,
+          keepAlive: false
+        },
+        component: () => import('@/views/home/home.vue')
     },
     {
-        path: "",
+        path: "/",
         name: "Index",
         component: () => import('@/views/Layout.vue'),
         children:[
-            {
-                path: '',
-                name: 'Home',
-                meta: {
-                  title: '首页',
-                  requireAuth: false,
-                  keepAlive: false
-                },
-                component: () => import('@/views/home/home.vue')
-            },
+
             ...personalRouter,
             ...liveRouter,
         ]

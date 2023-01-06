@@ -18,7 +18,7 @@
     <div :class="{ 'comments-emoji': true, 'animate__animated': true, 'animate__headShake': !emoji.animationBox, 'animate__flipOutX': emoji.animationBox }"
         v-show="emoji.show">
         <span class="emoji-item" v-for="emojiItem in emoji.emoji" :key="emojiItem"
-            @click="comments.comments = comments + emojiItem">{{ emojiItem }}</span>
+            @click="comments.comments = comments.comments + emojiItem">{{ emojiItem }}</span>
     </div>
 </template>
 <script lang="ts" setup>import { articlePostComment, getArticleComment } from '@/apis/contribution';
@@ -36,6 +36,10 @@ const props = defineProps({
     },
     articleInfo: {
         type: Object,
+        required: true,
+    },
+    commentsID: {
+        type: Number,
         required: true,
     }
 })
@@ -55,7 +59,6 @@ const emoji = reactive({
 
 const comments = reactive(<CommentsInfo>{
     comments: "",
-    commentsID: 0,
 })
 
 
@@ -78,7 +81,7 @@ const postComment = async (comments: UnwrapNestedRefs<CommentsInfo>, articleID: 
         const requistData = <ArticlePostCommentReq>{
             article_id: articleID,
             content: comments.comments,
-            content_id: comments.commentsID,
+            content_id: props.commentsID,
         }
         const reponse = await articlePostComment(requistData)
         console.log(reponse)

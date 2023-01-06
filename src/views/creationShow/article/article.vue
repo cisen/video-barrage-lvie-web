@@ -48,7 +48,8 @@
           <SvgIcon name="editor" class="icon-edit"></SvgIcon> 评论
         </div>
         <div class="comments-main">
-          <commentPosting :articleID="articleID" :articleInfo="articleInfo" @updateArticleInfo="updateArticleInfo"></commentPosting>
+          <commentPosting :articleID="articleID" :articleInfo="articleInfo" @updateArticleInfo="updateArticleInfo"
+            :commentsID="0"></commentPosting>
         </div>
 
         <div class="comments-show">
@@ -63,7 +64,8 @@
                       class="comment-info-other">{{ dayjs(commentsItem.created_at).format('YYYY.MM.DD.hh.mm') }}</span>
                   </div>
                   <div class="commentInfo-reply">
-                    <el-button type="primary" v-removeFocus round size="small">回复</el-button>
+                    <el-button type="primary" v-removeFocus round size="small"
+                      @click="replyComments(commentsItem.id)">回复</el-button>
                   </div>
                 </div>
                 <!-- 评论内容部分 -->
@@ -81,14 +83,16 @@
                           }}</span>
                       </div>
                       <div class="commentInfo-reply">
-                        <el-tag effect="dark" round v-removeFocus>
+                        <el-tag effect="dark" round v-removeFocus @click="replyComments(lowerComments.id)">
                           回复
                         </el-tag>
                       </div>
                     </div>
                     <!-- 评论内容部分 -->
                     <div class="content-info">
-                      {{ lowerComments.context }}
+                      <span v-if="lowerComments.comment_user_id != commentsItem.uid"><span class="at-user">@{{
+                          lowerComments.comment_user_name
+                      }} </span> : </span> {{ lowerComments.context }}
                     </div>
                   </div>
                 </div>
@@ -98,7 +102,8 @@
         </div>
         <!-- 回复评论  dialog-->
         <el-dialog v-model="replyCommentsDialog.show" title="Shipping address">
-          <commentPosting :articleID="articleID" :articleInfo="articleInfo" @updateArticleInfo="updateArticleInfo"></commentPosting>
+          <commentPosting :articleID="articleID" :articleInfo="articleInfo" @updateArticleInfo="updateArticleInfo"
+            :commentsID="replyCommentsDialog.commentsID"></commentPosting>
         </el-dialog>
 
       </div>
@@ -116,13 +121,14 @@ import 'quill/dist/quill.bubble.css'
 
 
 import topNavigation from "@/components/topNavigation/topNavigation.vue"
-import { useArticleShowProp, useInit} from "@/hooks/creationShow/article/useArticle"
+import { useArticleShowProp, useInit } from "@/hooks/creationShow/article/useArticle"
 import dayjs from "dayjs"
 //代码高亮
 import 'highlight.js/styles/agate.css'
 import { vRemoveFocus } from "@/utils/customInstruction/focus"
-import { onMounted } from "vue";
+import { onMounted, onUnmounted } from "vue";
 import { GetArticleCommentRes } from "@/types/creationShow/article/article"
+import { blossom } from "@/utils/effect/blossom"
 
 components: {
   topNavigation
@@ -131,16 +137,29 @@ components: {
 
 const { articleID, articleInfo, router, route, replyCommentsDialog } = useArticleShowProp()
 
-const updateArticleInfo = (commentsList : GetArticleCommentRes ) =>{
+const updateArticleInfo = (commentsList: GetArticleCommentRes) => {
   //得到的数据
   articleInfo.value.comments = commentsList.comments
   articleInfo.value.comments_number = commentsList.comments_number
 }
 
-onMounted(async () => {
-  await useInit(articleID, articleInfo, route, router)
+const replyComments = (commentsID: number) => {
+  replyCommentsDialog.commentsID = commentsID
+  replyCommentsDialog.show = !replyCommentsDialog.show
+}
 
+//樱花动效
+const { startSakura, stopp } = blossom()
+        
+onMounted(async () => {
+  startSakura()
+  await useInit(articleID, articleInfo, route, router)
 })
+
+onUnmounted(()=>{
+  stopp()
+})
+
 </script>
 
 <style scoped lang="scss">
@@ -320,6 +339,9 @@ onMounted(async () => {
               color: #000;
               word-break: break-word;
 
+              .at-user {
+                color: #03a9f4;
+              }
             }
 
           }

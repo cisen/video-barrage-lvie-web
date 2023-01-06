@@ -2,10 +2,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100%;
+  width: 100%;
   background-color: #f6f5f7;
-  background-size:100% 100%;
-  background-image: url("@/assets/img/login/background.png");
+  background-size:cover;
+  background-image: url("@/assets/img/login/background.svg");
+
+
+   
+        
 
   .container {
     position: relative;
@@ -151,7 +156,7 @@
   }
 
   .theme-button {
-    background: rgba(96,120,162,1);
+    background: rgba(64,158,255,0.7);
     padding: 10px 50px;
     border: 1px solid transparent;
     border-radius: 20px;

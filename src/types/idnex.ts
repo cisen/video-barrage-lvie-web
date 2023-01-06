@@ -29,3 +29,10 @@ export interface FileUpload {
   uploadType: string, //上传类型
   action: string, //请求地址
 }
+
+//分页配置
+export interface PageInfo {
+  page   : number   // 页码
+	size : number // 每页大小
+	keyword  ?: string //关键字
+}

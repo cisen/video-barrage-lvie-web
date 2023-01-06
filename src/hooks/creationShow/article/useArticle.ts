@@ -1,11 +1,11 @@
 
 import { Router, useRouter, useRoute, RouteLocationNormalizedLoaded } from 'vue-router';
-import { getArticleContributionByID } from "@/apis/contribution"
-import { GetArticleContributionByIDReq, GetArticleContributionByIDRes } from "@/types/creationShow/article/article"
-import { blossom } from "@/utils/effect/blossom"
+import { getArticleComment, getArticleContributionByID } from "@/apis/contribution"
+import { GetArticleCommentReq, GetArticleContributionByIDReq, GetArticleContributionByIDRes } from "@/types/creationShow/article/article"
 import { Ref, reactive, ref } from "vue"
 import globalScss from "@/assets/styles/global/export.module.scss"
 import Swal from 'sweetalert2';
+import { Size } from 'tsparticles-engine';
 
 export const useArticleShowProp = () => {
     const articleID = ref(0)
@@ -16,7 +16,6 @@ export const useArticleShowProp = () => {
     //回复二级评论
     const replyCommentsDialog = reactive({
         show: false,
-        comments: "",
         commentsID: 0,
     })
 
@@ -42,8 +41,6 @@ export const useInit = async (articleID: Ref<number>, articleInfo: Ref<GetArticl
             return
         }
         articleID.value = Number(route.query.articleID)
-        const { startSakura, stopp } = blossom()
-        startSakura()
         window.onresize = function () {
             const canvasSnow = document.getElementById('canvas_sakura') as HTMLEmbedElement;
             if (!canvasSnow) return false
@@ -54,8 +51,10 @@ export const useInit = async (articleID: Ref<number>, articleInfo: Ref<GetArticl
         const response = await getArticleContributionByID(<GetArticleContributionByIDReq>{
             articleID: articleID.value
         })
+
         if (!response.data) throw "文章内容为空"
         articleInfo.value = response.data
+        articleInfo.value.comments = response.data?.comments 
 
     } catch (err) {
         console.log(err)
