@@ -8,26 +8,18 @@
     </div>
     <!-- 主体 -->
     <div class="middle">
-      <el-row>
-        <el-col :span="12">
-          <div class="grid-content ep-bg-purple" />
-          <div class="carousel">
-            <el-carousel indicator-position="none" arrow="never" height="520px">
-              <el-carousel-item v-for="item in list" :key="item">
-                <div>
-                <div class="carousel-img-box">
-                  <img class="carousel-img" :src="item.src" />
-                  <div class="carousel-bottom"></div>
-                </div>
-                </div> 
-              </el-carousel-item>
-            </el-carousel>
-          </div>
-        </el-col>
-        <el-col :span="12">
-          <div class="grid-content ep-bg-purple-light" />
-        </el-col>
-      </el-row>
+      <div class="carousel">
+        <el-carousel indicator-position="none" arrow="never" height="520px">
+          <el-carousel-item v-for="item in list" :key="item">
+            <div>
+              <div class="carousel-img-box">
+                <img class="carousel-img" :src="item.src" />
+                <div class="carousel-bottom"></div>
+              </div>
+            </div>
+          </el-carousel-item>
+        </el-carousel>
+      </div>
 
     </div>
   </div>
