@@ -21,6 +21,9 @@
         </el-carousel>
       </div>
 
+      <div class="video-card"  v-for="item in 14">
+      <Card :roomID="30"></Card>
+      </div>
     </div>
   </div>
 </template>
