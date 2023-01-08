@@ -6,47 +6,8 @@
     <!-- 封面图 -->
     <div class="cover-picture">
     </div>
-
     <!-- 顶部通道 热门分类 -->
-    <div class="header-channel">
-      <!-- 左边部分 -->
-      <div class="header-channel-left">
-        <div class="channel-left-item">
-          <div class="channel-left-icon bg-orange">
-            <SvgIcon name="dynamic" class="icon" color="#fff"></SvgIcon>
-          </div>
-          <div class="channel-left-item-title">动态</div>
-        </div>
-        <div class="channel-left-item">
-          <div class="channel-left-icon bg-pink">
-            <SvgIcon name="flame" class="icon" color="#fff"></SvgIcon>
-          </div>
-          <div class="channel-left-item-title">热门</div>
-        </div>
-        <div class="channel-left-item">
-          <div class="channel-left-icon bg-green">
-            <SvgIcon name="channel" class="icon" color="#fff"></SvgIcon>
-          </div>
-          <div class="channel-left-item-title">频道</div>
-        </div>
-      </div>
-      <!-- 中间部分 -->
-      <div class="header-channel-right">
-        <div class="channel-right-box-left">
-          <div class="right-box-left-item" v-for="item in 24">
-            番剧
-          </div>
-        </div>
-
-        <div class="channel-right-box-right">
-          <div class="right-box-right-item" v-for="item in 6">
-            <SvgIcon name="columnInformation" class="icon" color="#61666D"></SvgIcon>
-            <span>专栏</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
+    <homeHeaderChannel></homeHeaderChannel>
     <!-- 主体 -->
     <div class="middle">
       <!-- 轮播图 -->
@@ -72,11 +33,13 @@
 
 <script setup lang="ts">
 import Card from "@/components/homeVideoList/card.vue"
+import homeHeaderChannel from "@/components/homeHeaderChannel/homeHeaderChannel.vue"
 import topNavigation from "@/components/topNavigation/topNavigation.vue"
 import { reactive } from "vue";
 
 components: {
   Card
+  homeHeaderChannel
   topNavigation
 }
 const list = reactive([
