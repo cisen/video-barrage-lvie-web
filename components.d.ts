@@ -55,6 +55,7 @@ declare module '@vue/runtime-core' {
     ElTag: typeof import('element-plus/es')['ElTag']
     ElTimePicker: typeof import('element-plus/es')['ElTimePicker']
     ElUpload: typeof import('element-plus/es')['ElUpload']
+    HomeHeaderChannel: typeof import('./src/components/homeHeaderChannel/homeHeaderChannel.vue')['default']
     LiveHeader: typeof import('./src/components/LiveBroadcast/liveHeader.vue')['default']
     MessageBoxInfo: typeof import('./src/components/messageBoxInfo/messageBoxInfo.vue')['default']
     MisIcon: typeof import('./src/components/MisIcon.vue')['default']

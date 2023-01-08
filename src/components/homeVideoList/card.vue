@@ -23,7 +23,12 @@
                 </div>
             </div>
             <div class="info">
-                
+                <div class="video-title">普通男人爱情最真实的样子…………就是这样了</div>
+                <div class="video-information">
+                    <SvgIcon name="up" class="icon" color="#999"></SvgIcon>
+                    <span class="video-information-username">天师道的白山正 </span> <span class="video-information-time">·
+                        1-5</span>
+                </div>
             </div>
         </div>
         <!-- 鼠标移入显示 -->

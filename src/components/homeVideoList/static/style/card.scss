@@ -9,21 +9,21 @@
 
 .mouseleave {
     animation: mouseleave 0.1s ease-in-out;
-    transform: scale(1) ;
-} 
+    transform: scale(1);
+}
 
 
- @keyframes mouseover {
-        0% {
-            -webkit-transform: scale(1);
+@keyframes mouseover {
+    0% {
+        -webkit-transform: scale(1);
 
-            transform: scale(1) translate(-2%, 0%)
-        }
+        transform: scale(1) translate(-2%, 0%)
+    }
 
-        to {
-            -webkit-transform: scale(1.05);
-            transform: scale(1.05) translate(-2%, 0%)
-        }
+    to {
+        -webkit-transform: scale(1.05);
+        transform: scale(1.05) translate(-2%, 0%)
+    }
 
 }
 
@@ -46,12 +46,13 @@
     margin: 0px 10px 0px 10px;
     height: 13rem;
     margin-bottom: 2rem;
+
     /* 聚焦属性*/
-    .change{
+    .change {
         z-index: 5;
-        
+
     }
-    
+
 
     .head {
         height: 188px;
@@ -90,42 +91,75 @@
             align-items: center;
             justify-content: center;
 
-            .icon{
+            .icon {
                 width: 20px;
                 height: 20px;
             }
-            .classification-left{
+
+            .classification-left {
                 flex: 1;
                 margin-left: 10px;
                 display: flex;
-                .play-volume{
+
+                .play-volume {
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     margin-right: 6px;
                 }
-                .barrage-number{
+
+                .barrage-number {
                     display: flex;
                     align-items: center;
                     justify-content: center;
                 }
             }
 
-            .classification-right{
+            .classification-right {
                 margin-right: 10px;
             }
-           
+
         }
     }
 
 
 
     .info {
-        margin-top: 10px;
+        margin-top: 6px;
         height: 55px;
-        display: flex;
+        // display: flex;
         align-items: center;
 
-        
+        .video-title {
+            line-height: 22px;
+            height: calc(2 * 22px);
+            color: #18191C;
+            text-align: start;
+
+        }
+
+        .video-information {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+
+            .video-information-username {
+                color: rgb(148, 153, 160);
+                font-size: 8px;
+                margin-left: 6px;
+            }
+
+            .video-information-time {
+                color: rgb(148, 153, 160);
+                font-size: 8px;
+                margin-left: 6px;
+            }
+        }
+
+        .icon {
+            width: 15px;
+            height: 12px;
+        }
+
     }
 }
