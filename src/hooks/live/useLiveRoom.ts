@@ -45,7 +45,6 @@ export const useWebSocket = (dp: DPlayer, userStore: any, sideRef: Ref<any> , ro
           case "webClientBarrageRes":
             webClientBarrageDeal(response, dp, sideRef)
             break;
-
           case "webClientEnterLiveRoomRes":
             webClientEnterLiveRoomDeal(response, dp, sideRef)
             break;
@@ -54,7 +53,6 @@ export const useWebSocket = (dp: DPlayer, userStore: any, sideRef: Ref<any> , ro
             break;
           default: console.error("未支持的消息类型")
             break;
-
         }
         console.log(response)
       }
