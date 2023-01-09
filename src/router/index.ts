@@ -24,7 +24,6 @@ const routes = [
         name: "Index",
         component: () => import('@/views/Layout.vue'),
         children:[
-
             ...personalRouter,
             ...liveRouter,
         ]
