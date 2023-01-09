@@ -7,7 +7,7 @@ import globalScss from "@/assets/styles/global/export.module.scss"
 import { uploadFile } from '@/utils/upload/upload';
 import { getuploadingMethod } from "@/apis/commonality"
 import { getUploadingMethodRrq, getUploadingMethodRrs } from "@/types/commonality/commonality"
-
+import {fileReader} from "@/utils/fun/fun"
 import { vdeoContributionForm, uploadFileformation, createVideoContributionReq } from "@/types/creation/contribute/contributePage/vdeoContribution"
 import { validateVideoIntroduce, validateVideoTitle } from "@/utils/validate/validate";
 import { createVideoContribution } from "@/apis/contribution";
@@ -18,6 +18,7 @@ export const useVdeoContributionProp = () => {
     const formRef = ref<FormInstance>()
     const ruleFormRef = ref<FormInstance>()
     const router = useRouter()
+    const video = ref() //上传的视频信息
     const form = reactive(<vdeoContributionForm>{
         isShow: false,
         title: '',
@@ -55,18 +56,25 @@ export const useVdeoContributionProp = () => {
         router,
         uploadFileformation,
         uploadCoveration,
-        labelInputRef
+        labelInputRef,
+        video
     }
 }
 
 //上传视频处理
-export const useHandleFileMethod = (uploadFileformation: uploadFileformation, form: vdeoContributionForm) => {
+export const useHandleFileMethod = (uploadFileformation: uploadFileformation, form: vdeoContributionForm, video: Ref) => {
 
-    const handleFileSuccess: UploadProps['onSuccess'] = (
+    const handleFileSuccess: UploadProps['onSuccess'] =  async (
         response,
         uploadFile
     ) => {
         uploadFileformation.FileUrl = URL.createObjectURL(uploadFile.raw!)
+        // video.value.src = URL.createObjectURL(uploadFile.raw!)
+        video.value.onloadedmetadata = () =>{
+            console.log(" onloadedmetadata 视频时长", video.value.duration)
+        }
+        const readerInfo =  await fileReader(uploadFile.raw!)
+        video.value.src = readerInfo?.result       
     }
 
     const handleFileError: UploadProps['onError'] = (
