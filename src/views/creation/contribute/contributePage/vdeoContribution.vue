@@ -1,4 +1,5 @@
 <template>
+    <!-- 上传 -->
     <div class="vdeo-contribution ">
         <div class="upload-box animate__animated animate__bounceIn" v-show="!form.isShow">
             <el-upload class="upload" drag action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
@@ -23,12 +24,17 @@
                 </div>
             </el-upload>
         </div>
+        <!-- 配置上传信息 -->
         <div class="form-box animate__animated animate__bounceIn" v-show="form.isShow">
+            <!-- 视频预览 -->
+            <div class="video-preview">
+            <video class="video" ref="video" src="https://eraser-go-live.oss-cn-hangzhou.aliyuncs.com/assets/text.mp4"  autoplay ></video>
+            </div>            
             <p>文件上传进度</p>
             <el-progress :text-inside="true" :stroke-width="16" :percentage="uploadFileformation.progress" />
             <h3> 基本设置</h3>
-
-            <el-form :model="form" ref="ruleFormRef"  label-width="120px" label-position="left"  :rules="videoContributionRules">
+            <el-form :model="form" ref="ruleFormRef" label-width="120px" label-position="left"
+                :rules="videoContributionRules">
                 <el-form-item class="form-item-middle" label="封面">
                     <el-upload class="cover-uploader" :action="uploadCoveration.action" :show-file-list="false"
                         :on-success="handleCover.handleFileSuccess" :on-error="handleCover.handleFileError"
@@ -37,10 +43,10 @@
                         <img v-if="uploadCoveration.FileUrl" :src="uploadCoveration.FileUrl" class="cover" />
                         <el-icon v-else class="cover-uploader-icon">
                             <Plus />
-                        </el-icon> 
+                        </el-icon>
                     </el-upload>
                 </el-form-item>
-                <el-form-item label="标题" prop="title"> 
+                <el-form-item label="标题" prop="title">
                     <el-input v-model="form.title" placeholder="给视频起个标题吧~" />
                 </el-form-item>
                 <el-form-item label="类型">
@@ -72,9 +78,10 @@
                 <el-form-item label="介绍" class="form-item-middle" prop="introduce">
                     <el-input resize="none" maxlength="2000" rows="4" v-model="form.introduce" type="textarea"
                         placeholder="填写更全面的相关信息，让更多的人能找到你的视频吧" />
-                </el-form-item> 
+                </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="useSaveData(form,uploadFileformation,uploadCoveration,ruleFormRef,router)">提交</el-button>
+                    <el-button type="primary"
+                        @click="useSaveData(form, uploadFileformation, uploadCoveration, ruleFormRef, router)">提交</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -82,18 +89,18 @@
 </template>
   
 <script setup lang="ts">
- import { useVdeoContributionProp, useHandleFileMethod, useInit, useHandleCoverMethod, userLabelHandlMethod, useSaveData ,useRules} from "@/hooks/creation/contribute/contributePage/useVdeoContribution"
+import { useVdeoContributionProp, useHandleFileMethod, useInit, useHandleCoverMethod, userLabelHandlMethod, useSaveData, useRules } from "@/hooks/creation/contribute/contributePage/useVdeoContribution"
 import { UploadFilled, Upload } from '@element-plus/icons-vue'
-import { nextTick, onMounted, reactive, ref } from 'vue';
+import {  onMounted, reactive, ref } from 'vue';
 import { Plus } from '@element-plus/icons-vue'
 import { ElInput, FormInstance } from 'element-plus'
 
-const { form, uploadFileformation, uploadCoveration, labelInputRef,router,ruleFormRef} = useVdeoContributionProp()
-const handle = useHandleFileMethod(uploadFileformation, form)
+const { form, uploadFileformation, uploadCoveration, labelInputRef, router, ruleFormRef ,video } = useVdeoContributionProp()
+const handle = useHandleFileMethod(uploadFileformation, form ,video)
 const handleCover = useHandleCoverMethod(uploadCoveration, form)
 const labelHandl = userLabelHandlMethod(form, labelInputRef)
-const {videoContributionRules}  = useRules()
- 
+const { videoContributionRules } = useRules()
+
 onMounted(() => {
     useInit(uploadFileformation, uploadCoveration)
 })
