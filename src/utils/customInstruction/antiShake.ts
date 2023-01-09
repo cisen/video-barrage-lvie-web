@@ -1,14 +1,12 @@
 import { App, DirectiveBinding } from 'vue'
-
-export default (app: App<Element>) => {
-  app.directive('btnAntiShake', {
-    mounted(el: HTMLElement, binding: DirectiveBinding) {
+//防抖
+export const  vAntiShake = {
+    mounted(el: HTMLElement, binding: DirectiveBinding<any>) {
       let timer: NodeJS.Timeout | null = null
       el.addEventListener('click', () => {
       let firstClick: Boolean = !timer;
-  
       if (firstClick) {
-        binding.value()
+        binding.value.fun(...binding.value.params)
       }
       if (timer) {
         clearTimeout(timer)
@@ -16,10 +14,9 @@ export default (app: App<Element>) => {
       timer = setTimeout(() => {
         timer = null
         if (!firstClick) {
-          binding.value()
+          binding.value.fun(...binding.value.params)
         }
-      }, 1000);
+      },  binding.value.time);
       })
     }
-  })
 }
