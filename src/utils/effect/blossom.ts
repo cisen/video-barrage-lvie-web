@@ -184,7 +184,9 @@ export const blossom = () => {
             window.cancelAnimationFrame(stop);
             staticx = false;
         } else {
+            //关闭樱花动效
             startSakura();
+            document.getElementById("canvas_sakura")?.remove()
         }
     }
 
