@@ -28,7 +28,7 @@
         <div class="form-box animate__animated animate__bounceIn" v-show="form.isShow">
             <!-- 视频预览 -->
             <div class="video-preview">
-            <video class="video" ref="video" src="https://eraser-go-live.oss-cn-hangzhou.aliyuncs.com/assets/text.mp4"  autoplay ></video>
+            <video class="video" ref="video" src="" autoplay ></video>
             </div>            
             <p>文件上传进度</p>
             <el-progress :text-inside="true" :stroke-width="16" :percentage="uploadFileformation.progress" />
