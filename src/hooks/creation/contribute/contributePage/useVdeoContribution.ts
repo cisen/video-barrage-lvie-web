@@ -29,6 +29,7 @@ export const useVdeoContributionProp = () => {
         labelText: "",
         label: [],
         introduce: "",
+        videoDuration : 0,
     })
     const uploadFileformation = reactive(<uploadFileformation>{
         progress: 0,
@@ -69,9 +70,10 @@ export const useHandleFileMethod = (uploadFileformation: uploadFileformation, fo
         uploadFile
     ) => {
         uploadFileformation.FileUrl = URL.createObjectURL(uploadFile.raw!)
-        // video.value.src = URL.createObjectURL(uploadFile.raw!)
+        //视频准备好事件
         video.value.onloadedmetadata = () =>{
-            console.log(" onloadedmetadata 视频时长", video.value.duration)
+            //修改视频时长
+            form.videoDuration = Math.round(video.value.duration)
         }
         const readerInfo =  await fileReader(uploadFile.raw!)
         video.value.src = readerInfo?.result       
@@ -264,6 +266,7 @@ export const useSaveData = async (form: vdeoContributionForm, uploadFileformatio
                     timingTime: form.date1time,
                     label: form.label,
                     introduce: form.introduce,
+                    videoDuration : form.videoDuration
                 }
                 let response = await createVideoContribution(requistData)
                 Swal.fire({

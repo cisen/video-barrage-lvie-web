@@ -11,6 +11,7 @@ export interface vdeoContributionForm {
     labelText: string,
     label: Array<string>,
     introduce: string,
+    videoDuration : number
 }
 //upload
 export interface uploadFileformation extends FileUpload {
@@ -29,5 +30,5 @@ export interface createVideoContributionReq {
     timingTime?: string,
     label:  Array<string>,
     introduce: string,
-
+    videoDuration : number
 }
