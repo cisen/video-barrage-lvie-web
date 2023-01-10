@@ -4,7 +4,7 @@
       <topNavigation color="#fff" :displaySearch="false"></topNavigation>
     </div>
     <!-- 封面图 -->
-    <div class="cover-picture">
+    <div class="cover-picture" :style="{backgroundImage :  `url(${articleInfo.cover})`}">
       <div class="article-info-container">
         <div class="title">{{ articleInfo.title }}</div>
         <div class="article-info">
