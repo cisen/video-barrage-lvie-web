@@ -5,8 +5,8 @@ import globalScss from "@/assets/styles/global/export.module.scss"
 import { reactive, Ref, ref } from "vue";
 import flvJs from "flv.js";
 import { decodeMessage } from "@/proto/pb/live"
-import { webClientBarrageDeal, webClientEnterLiveRoomDeal, webClientHistoricalBarrageRes } from "@/hooks/live/useSocketFun"
-import { useRoute, RouteLocationNormalizedLoaded ,useRouter , Router } from "vue-router"
+import { webClientBarrageDeal, webClientEnterLiveRoomDeal, webClientHistoricalBarrageRes, webError } from "@/hooks/live/useSocketFun"
+import { useRoute, RouteLocationNormalizedLoaded, useRouter, Router } from "vue-router"
 import { useUserStore } from "@/store/main";
 export const useLiveRoomProp = () => {
   const route = useRoute()
@@ -24,7 +24,7 @@ export const useLiveRoomProp = () => {
   }
 }
 
-export const useWebSocket = (dp: DPlayer, userStore: any, sideRef: Ref<any> , roomID : Ref<Number>) => {
+export const useWebSocket = (dp: DPlayer, userStore: any, sideRef: Ref<any>, roomID: Ref<Number>) => {
   let socket: WebSocket
   const initWebSocket = (() => {
     const open = () => {
@@ -42,6 +42,9 @@ export const useWebSocket = (dp: DPlayer, userStore: any, sideRef: Ref<any> , ro
         let buf = new Uint8Array(reader.result as ArrayBuffer);
         const response = decodeMessage(buf)
         switch (response.msgType) {
+          case "error" :
+            webError(response)
+            break;
           case "webClientBarrageRes":
             webClientBarrageDeal(response, dp, sideRef)
             break;
@@ -85,7 +88,7 @@ export const useWebSocket = (dp: DPlayer, userStore: any, sideRef: Ref<any> , ro
 }
 
 
-export const useInit = async (videoRef: Ref, route: RouteLocationNormalizedLoaded, Router : Router, roomID: Ref<Number> ,) => {
+export const useInit = async (videoRef: Ref, route: RouteLocationNormalizedLoaded, Router: Router, roomID: Ref<Number>,) => {
   try {
     //绑定房间
     if (!route.query.roomID) {
@@ -101,7 +104,7 @@ export const useInit = async (videoRef: Ref, route: RouteLocationNormalizedLoade
     }
 
 
-    roomID.value =  Number(route.query.roomID)
+    roomID.value = Number(route.query.roomID)
     //初始化播放器
     console.log(videoRef)
     const dp = new DPlayer({
