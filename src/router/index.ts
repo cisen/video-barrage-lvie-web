@@ -7,7 +7,8 @@ import {ElMessage} from "element-plus";
 import liveRouter from "@/router/live";
 import personalRouter  from "@/router/personal";
 import  creation from "@/router/creation"
-import  creationShow from "@/router/creationShow"
+import articleShow from "@/router/creationShow/articleShow"
+import videoShow from "@/router/creationShow/videoShow"
 const routes = [
     {
         path: '',
@@ -26,8 +27,16 @@ const routes = [
         children:[
             ...personalRouter,
             ...liveRouter,
+            ...videoShow
         ]
     },
+    //登入
+    {
+        path: "/login",
+        name: "Login",
+        component: () => import('@/views/login/login.vue'),
+    },
+    //创作中心
     {
         path: "/creation",
         name: "Creation",
@@ -36,18 +45,16 @@ const routes = [
             ...creation
         ]
     },
+    //专栏展示
+    ...articleShow
+    //未匹配路由404
+    , 
     {
         path: '/:pathMatch(.*)*',
         name: 'NotFound',
         component:() => import('@/views/404.vue'),
         
-    }, 
-    {
-        path: "/login",
-        name: "Login",
-        component: () => import('@/views/login/login.vue'),
-    },
-    ...creationShow
+    }
      
 ];
 
