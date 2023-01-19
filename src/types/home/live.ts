@@ -15,6 +15,25 @@ export interface rotograph {
     to_id: number
 }
 export type rotographList = Array<rotograph>
+
+//视频信息
+export interface videoInfo {
+    id : number
+	uid :number 
+	title : string
+	video : string
+	cover : string
+	video_duration : number
+	label : Array<string>
+	introduce :  string
+	heat : number 
+	barrageNumber : number
+	username : string
+    created_at : string
+}
+
+export type videoInfoList = Array<videoInfo> 
 export interface getHomeInfoRes {
     rotograph: rotographList
+    videoList : videoInfoList
 }
