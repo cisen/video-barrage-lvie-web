@@ -13,8 +13,11 @@
       <!-- 轮播图 -->
       <homeRotograph :rotograph="homeInfo?.rotograph"></homeRotograph>
       <!-- 视频 -->
-      <div class="video-card" v-for="item in 16">
-        <Card :roomID="30"></Card>
+      <div class="video-card" v-for="videoInfo in homeInfo.videoList">
+        <Card :id="videoInfo.id" :title="videoInfo.title" :username="videoInfo.username"
+          :video_duration="videoInfo.video_duration" v-bind:barrage-number="videoInfo.barrageNumber"
+          :heat="videoInfo.heat" :cover="videoInfo.cover" :created_at="videoInfo.created_at"
+          ></Card>
       </div>
     </div>
   </div>
@@ -37,16 +40,17 @@ components: {
 }
 
 let homeInfo = ref<getHomeInfoRes>({
-  rotograph : []
-}) 
+  rotograph: [],
+  videoList: []
+})
 
-const init = async (homeInfo : Ref<getHomeInfoRes>) => {
+const init = async (homeInfo: Ref<getHomeInfoRes>) => {
   const response = await getHomeInfoRequist()
-  if (response.data) 
-  homeInfo.value = response.data
+  if (response.data)
+    homeInfo.value = response.data
 }
 
-onMounted(() =>{
+onMounted(() => {
   init(homeInfo)
 })
 
