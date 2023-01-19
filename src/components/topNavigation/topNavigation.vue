@@ -1,5 +1,5 @@
 <template>
-  <el-row ref="elRowRef" :class="{ row: true, bgColorBlack: scrollTopNotTop, bgColorWhite: !scrollTopNotTop }" :style="{maxWidth :screenWidth }">
+  <el-row ref="elRowRef" :class="{ row: true, bgColorBlack: scrollTopNotTop, bgColorWhite: !scrollTopNotTop  ,boxShadow :boxShadow}" :style="{maxWidth :screenWidth }">
     <el-col :span="1">
       <div class="grid-content ep-bg-purple" />
     </el-col>
@@ -46,11 +46,13 @@ const emit = defineProps({
     type: Boolean,
     required: false,
     default: true,
-  }
-}
-
-
-)
+  },
+  boxShadow:{
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+})
 components: {
   RightSide;
 }
