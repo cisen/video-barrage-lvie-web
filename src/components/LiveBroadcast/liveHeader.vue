@@ -8,9 +8,9 @@
                 <p class="live-titel"> {{ titel }} </p>
             </div>
             <div class="info-right">
-                <el-button type="primary" :icon="Star" circle />
-                <el-button type="primary" :icon="Warning" circle />
-                <el-button type="primary" :icon="Position" circle />
+                <el-button type="primary" v-removeFocus :icon="Star" circle />
+                <el-button type="primary" v-removeFocus :icon="Warning" circle />
+                <el-button type="primary"  v-removeFocus :icon="Position" circle />
             </div>
         </div>
     </div>
@@ -18,9 +18,8 @@
 
 
 <script setup  lang="ts">
-
+import {vRemoveFocus} from "@/utils/customInstruction/focus"
 import {
-
   Position,
   Warning,
   Star,
