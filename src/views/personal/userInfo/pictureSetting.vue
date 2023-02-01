@@ -6,7 +6,7 @@
         <el-upload class="avatar-uploader" :action="uploadAvatarForm.action" :show-file-list="false"
           :on-success="handle.handleFileSuccess" :on-error="handle.handleFileError"
           :before-upload="handle.beforeFileUpload" :auto-upload="true" :http-request="handle.redefineUploadFile">
-          <img v-if="uploadAvatarForm.FileUrl" :src="uploadAvatarForm.FileUrl" class="avatar" />
+          <img v-if="uploadAvatarForm.FileUrl" :src="uploadAvatarForm.FileUrl" accept=".png,.jpg,.jpeg" class="avatar" />
           <el-icon v-else class="avatar-uploader-icon">
             <Plus />
           </el-icon>

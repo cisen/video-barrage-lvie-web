@@ -63,8 +63,10 @@ const sendMessage = ref((tset: string) => {
 
 onMounted(async () => {
   dp = await useInit(videoRef,route , router, roomID) as DPlayer
-  sendMessage.value = useWebSocket(dp, userStore, sideRef,roomID).sendMessage
+  sendMessage.value = useWebSocket(dp, userStore, sideRef,roomID,router).sendMessage
 })
+
+
 
 </script>
 
