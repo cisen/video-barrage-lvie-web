@@ -11,7 +11,7 @@
                     <el-upload class="cover-uploader" :action="uploadCoveration.action" :show-file-list="false"
                         :on-success="handleCover.handleFileSuccess" :on-error="handleCover.handleFileError"
                         :before-upload="handleCover.beforeFileUpload" :auto-upload="true"
-                        :http-request="handleCover.RedefineUploadFile">
+                        :http-request="handleCover.RedefineUploadFile"  accept=".png,.jpg,.jpeg">
                         <img v-if="uploadCoveration.FileUrl" :src="uploadCoveration.FileUrl" class="cover" />
                         <el-icon v-else class="cover-uploader-icon">
                             <Plus />

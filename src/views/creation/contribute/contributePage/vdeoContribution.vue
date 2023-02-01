@@ -5,7 +5,7 @@
             <el-upload class="upload" drag action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
                 multiple :on-success="handle.handleFileSuccess" :on-error="handle.handleFileError"
                 :show-file-list="false" :before-upload="handle.beforeFileUpload" :auto-upload="true"
-                :http-request="handle.RedefineUploadFile">
+                :http-request="handle.RedefineUploadFile" accept=".mp4,.avi,.mov">
                 <el-icon class="el-icon--upload">
                     <upload-filled />
                 </el-icon>
@@ -28,13 +28,13 @@
         <div class="form-box animate__animated animate__bounceIn" v-show="form.isShow">
             <!-- 视频预览 -->
             <div class="video-preview">
-            <video class="video" ref="video" src="" autoplay ></video>
+            <video class="video" ref="video" src=""  ></video>
             </div>            
             <p>文件上传进度</p>
             <el-progress :text-inside="true" :stroke-width="16" :percentage="uploadFileformation.progress" />
             <h3> 基本设置</h3>
             <el-form :model="form" ref="ruleFormRef" label-width="120px" label-position="left"
-                :rules="videoContributionRules">
+                :rules="videoContributionRules" accept=".png,.jpg,.jpge">
                 <el-form-item class="form-item-middle" label="封面">
                     <el-upload class="cover-uploader" :action="uploadCoveration.action" :show-file-list="false"
                         :on-success="handleCover.handleFileSuccess" :on-error="handleCover.handleFileError"
