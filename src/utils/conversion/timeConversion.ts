@@ -20,15 +20,34 @@ export const rFC3339ToTime = (dateStr: string) : string => {
 }
 
 
+
 export const  formattingSecondTime = (time: number) => {
     let t = '';
       if(time > -1){
-        let hour = Math.floor(time/3600)
-        let min = Math.floor(time/60) % 60
-        let sec = time % 60
+		let min :number | string
+		let hour :number | string
+        hour = Math.floor(time/3600)
+		if(hour < 10){
+			hour = "0" + hour
+		}
+        min = Math.floor(time/60) % 60 
+		if(min < 10){
+			min = "0" + min
+		}
+		let sec : number | string
+        sec = time % 60
         if(hour != 0)  t += hour + ":"
         if(min != 0)  t += min + ":"
-        t += sec
+
+		if(hour == 0 && min == 0){
+			if(sec == 0){
+				sec = "00"
+			}
+			t = "00 :" + sec
+		}else{
+			t += sec
+		}
+       
       } 
       return t
 }

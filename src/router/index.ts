@@ -64,20 +64,20 @@ const router = createRouter({
 });
 
 
-router.beforeEach((to, from,next) => {
+router.beforeEach((to, from ,next) => {
     const globalStore = useGlobalStore()
     globalStore.globalData.router.currentRouter = to.path
-    if(to.path !== "/login"){
-        let  userInfo = useUserStore();
-        if (userInfo.userInfoData.id == 0 ){
-            ElMessage({
-                message: '请先登入',
-                type: 'error',
-            })
-            next({name : "Login"})
-            return
-        }
-    }
+    // if(to.path !== "/login"){
+    //     let  userInfo = useUserStore();
+    //     if (userInfo.userInfoData.id == 0 ){
+    //         ElMessage({
+    //             message: '请先登入',
+    //             type: 'error',
+    //         })
+    //         next({name : "Login"})
+    //         return
+    //     }
+    // }
 
     next()
 })

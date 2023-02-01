@@ -24,14 +24,14 @@ export const useLiveRoomProp = () => {
   }
 }
 
-export const useWebSocket = (dp: DPlayer, userStore: any, sideRef: Ref<any>, roomID: Ref<Number>) => {
+export const useWebSocket = (dp: DPlayer, userStore: any, sideRef: Ref<any>, roomID: Ref<Number>, Router: Router,) => {
   let socket: WebSocket
   const initWebSocket = (() => {
     const open = () => {
       console.log("websocket 连接成功 ")
     }
     const error = () => {
-      console.log("websocket 连接失败 ")
+      console.error("websocket 连接失败 ")
     }
     const getMessage = async (msg: any) => {
       console.log(msg.data)
@@ -62,10 +62,17 @@ export const useWebSocket = (dp: DPlayer, userStore: any, sideRef: Ref<any>, roo
     }
 
     if (typeof (WebSocket) === "undefined") {
-      alert("您的浏览器不支持socket")
+      Swal.fire({
+        title: "您的浏览器不支持socket",
+        heightAuto: false,
+        confirmButtonColor: globalScss.colorButtonTheme,
+        icon: "error",
+      })
+      Router.back()
+      return
     } else {
       // 实例化socket
-      socket = new WebSocket("ws://localhost:8080/ws/liveSocket?token=" + userStore.userInfoData.token + "&liveRoom=" + roomID.value)
+      socket = new WebSocket( import.meta.env.VITE_SOCKET_URL + "ws/liveSocket?token=" +  userStore.userInfoData.token + "&liveRoom=" + roomID.value)
       // 监听socket连接
       socket.onopen = open
       // 监听socket错误信息
@@ -74,7 +81,6 @@ export const useWebSocket = (dp: DPlayer, userStore: any, sideRef: Ref<any>, roo
       socket.onmessage = getMessage
     }
   })()
-
 
   const sendMessage = (msg: string | ArrayBufferLike | Blob | ArrayBufferView) => {
     console.log("发送消息", msg)
