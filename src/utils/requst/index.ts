@@ -16,7 +16,8 @@ interface ResultData<T = any> extends Result {
 }
 
 
-const URL: string = "http://localhost:8080";
+const URL: string = import.meta.env.VITE_BASE_URL;
+
 enum RequestEnums {
   TIMEOUT = 20000,
   SUCCESS = 200, // 请求成功
@@ -77,8 +78,6 @@ class RequestHttp {
           // })
           return Promise.reject(data);
         }
-        console.log(user.userInfoData)
-        console.log(data)
         if (data.code === RequestEnums.NOTLOGIN) {
           // 登录信息失效，应跳转到登录页面，并清空本地的token
           userInfo.userInfoData.token = ""
