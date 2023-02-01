@@ -1,6 +1,7 @@
 import { AreateArticleContributionReq, GetArticleContributionListByUserReq } from "@/types/creation/contribute/contributePage/articleContribution";
 import { createVideoContributionReq } from "@/types/creation/contribute/contributePage/vdeoContribution";
 import { ArticlePostCommentReq, GetArticleCommentReq, GetArticleCommentRes, GetArticleContributionByIDReq, GetArticleContributionByIDRes } from "@/types/creationShow/article/article";
+import { GetVideoContributionByIDReq, GetVideoContributionByIDRes, getVideoBarrageListReq, getVideoBarrageListRes, sendVideoBarrageReq } from "@/types/creationShow/video/video";
 import { GetArticleContributionListByUserRes } from "@/types/live/liveRoom";
 import httpRequest from "@/utils/requst"
 
@@ -34,4 +35,21 @@ export const articlePostComment = (params: ArticlePostCommentReq) => {
 //单独获取文章评论
 export const getArticleComment = (params: GetArticleCommentReq) => {
     return httpRequest.post<GetArticleCommentRes>('/contribution/getArticleComment', params);
+}
+
+//根据id获取视频信息
+export const getVideoContributionByID = (params: GetVideoContributionByIDReq) => {
+    return httpRequest.post<GetVideoContributionByIDRes>('/contribution/getVideoContributionByID', params);
+}
+
+export const danmakuApi = import.meta.env.VITE_BASE_URL + '/contribution/video/barrage/'
+
+//获取视弹幕列表
+export const getVideoBarrageList = (params: getVideoBarrageListReq) => {
+    return httpRequest.get<getVideoBarrageListRes>('/contribution/getVideoBarrageList', params);
+}
+
+//获取视弹幕列表
+export const sendVideoBarrage = (params: sendVideoBarrageReq) => {
+    return httpRequest.post('/contribution/video/barrage/v3/', params);
 }
