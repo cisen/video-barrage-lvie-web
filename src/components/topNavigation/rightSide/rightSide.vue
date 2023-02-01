@@ -1,9 +1,12 @@
 <template>
   <div class="info">
-    <div class="avatar">
-      <router-link to="/personal">
+    <div class="avatar-box">
+      <router-link v-if="userInfo.userInfoData.token" to="/personal" class="avatar">
         <el-avatar :size="36" :src="userInfo.userInfoData.photo" />
       </router-link>
+      <div v-if="!userInfo.userInfoData.token" @click="login()" class="login">
+        <span>登入</span>
+      </div>
     </div>
     <!-- iocn -->
     <div class="icon-list">
@@ -29,7 +32,7 @@
 
     </div>
 
-    <el-button type="primary" round @click="dialogTableVisible = !dialogTableVisible">开始直播</el-button>
+    <el-button type="primary" round @click="startLive()">开始直播</el-button>
     <el-dialog v-model="dialogTableVisible" :lock-scroll="false" class="dialog" center title="Begin to live">
       <el-steps :active="nextIndex">
         <el-step title="准备工作" description="Download tool" />
@@ -113,18 +116,37 @@ const jump = (name: string) => {
 }
 
 const getLiveRoomInfo = async () => {
-  try {
-    if (!userInfo.userInfoData.liveData.address && !userInfo.userInfoData.liveData.key) {
-      const data = await getLiveRoom();
-      userInfo.userInfoData.liveData.address = data.data?.address || "";
-      userInfo.userInfoData.liveData.key = data.data?.key || "";
+  if (userInfo.userInfoData.token) {
+    try {
+      if (!userInfo.userInfoData.liveData.address && !userInfo.userInfoData.liveData.key) {
+        const data = await getLiveRoom();
+        userInfo.userInfoData.liveData.address = data.data?.address || "";
+        userInfo.userInfoData.liveData.key = data.data?.key || "";
+      }
+    } catch (err) {
+      console.log(err);
     }
-  } catch (err) {
-    console.log(err);
   }
+
 };
 
 const { toClipboard } = useClipboard();
+
+const startLive = () => {
+  if (userInfo.userInfoData.token) {
+    dialogTableVisible.value = !dialogTableVisible.value
+  } else {
+    router.push({
+      name: 'Login'
+    })
+  }
+}
+
+const login = () => {
+  router.push({
+    name: 'Login'
+  })
+}
 
 const copy = async (text: string) => {
   try {
@@ -141,9 +163,9 @@ const copy = async (text: string) => {
 };
 
 
-onMounted: {
+onMounted(() => {
   getLiveRoomInfo();
-}
+})
 </script>
 
 <style scoped lang="scss">

@@ -4,12 +4,30 @@
     align-items: center;
     justify-content: center;
 
-    .avatar {
+    .avatar-box {
+        .avatar {
+            text-decoration: none;
+            margin-right: 30px;
+            display: flex;
+        }
+
+    }
+
+    .login {
         margin-right: 30px;
+        background-color: $color-theme;
+        height: 36px;
+        width: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        color: aliceblue;
     }
 
     .icon-list {
-       padding-right: 20px;
+        padding-right: 20px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -19,6 +37,7 @@
             font-size: 12px;
             margin-left: 12px;
             margin-right: 12px;
+
             .icon {
                 width: 21px;
                 height: 20px;
@@ -47,7 +66,7 @@
                 justify-content: center;
 
                 p {
-                  font-size: 24px;
+                    font-size: 24px;
                 }
 
                 .copy {
