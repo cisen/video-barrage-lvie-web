@@ -58,6 +58,9 @@ declare module '@vue/runtime-core' {
     Side: typeof import('./src/components/LiveBroadcast/side.vue')['default']
     SvgIcon: typeof import('./src/components/SvgIcon/index.vue')['default']
     TopNavigation: typeof import('./src/components/creationTopNavigation/topNavigation.vue')['default']
+    VideoIntroduce: typeof import('./src/components/videoIntroduce/videoIntroduce.vue')['default']
+    VideoPageCard: typeof import('./src/components/videoPageCard/videoPageCard.vue')['default']
+    VideoPageVideoCard: typeof import('./src/components/videoPageVideoCard/videoPageVideoCard.vue')['default']
   }
   export interface ComponentCustomProperties {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']
