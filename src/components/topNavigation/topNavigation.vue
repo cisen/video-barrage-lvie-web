@@ -9,7 +9,7 @@
         <el-menu :default-active="globaStore.globalData.router.currentRouter" class="el-menu" mode="horizontal"
           @select="handleSelect">
           <el-menu-item :style="{ color: scrollTopNotTop ? color : '#18191C' }" index="/"> 视频 </el-menu-item>
-          <el-menu-item :style="{ color: scrollTopNotTop ? color : '#18191C' }"> 专栏 </el-menu-item>
+          <el-menu-item :style="{ color: scrollTopNotTop ? color : '#18191C' }" index="/column">  专栏 </el-menu-item>
           <el-menu-item :style="{ color: scrollTopNotTop ? color : '#18191C' }"> 直播 </el-menu-item>
         </el-menu>
       </div>
