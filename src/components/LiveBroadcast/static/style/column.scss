@@ -20,7 +20,7 @@
 
         .column-item {
 
-            height: 256px;
+            height: 300px;
             position: relative;
             display: flex;
             flex-direction: row;
@@ -39,6 +39,24 @@
             .item-image {
                 width: 50%;
                 height: 100%;
+                transition: all 1s;
+                overflow: hidden;
+
+                .image {
+                    width: 100%;
+                    height: 100%;
+                    transition: all 1s;
+                }
+            }
+
+            .image:hover {
+                transform: scale(1.3);
+            }
+
+            .right{
+                right: 0;
+                text-align: right;
+                position: absolute;
             }
 
             .item-text {
