@@ -7,8 +7,9 @@ import flvJs from "flv.js";
 import { useRoute, RouteLocationNormalizedLoaded, useRouter, Router } from "vue-router"
 import { getVideoContributionByID, danmakuApi, getVideoBarrageList, sendVideoBarrage } from "@/apis/contribution";
 import { useUserStore } from "@/store/main"
-import { GetVideoContributionByIDReq, VideoInfo, getVideoBarrageListReq, sendVideoBarrageReq } from "@/types/creationShow/video/video";
-import { numberOfViewers } from './useSocketFun';
+import { GetVideoContributionByIDReq, VideoInfo, GetVideoBarrageListReq, SendVideoBarrageReq } from "@/types/creationShow/video/video";
+import { numberOfViewers, responseBarrageNum } from './useSocketFun';
+import { json } from 'stream/consumers';
 
 
 export const useVideoProp = () => {
@@ -21,6 +22,11 @@ export const useVideoProp = () => {
   const barrageInput = ref("")
   const barrageListShow = ref(false)
   const liveNumber = ref(0)
+  //回复二级评论
+  const replyCommentsDialog = reactive({
+    show: false,
+    commentsID: 0,
+  })
 
   return {
     route,
@@ -31,12 +37,13 @@ export const useVideoProp = () => {
     videoInfo,
     barrageInput,
     barrageListShow,
-    liveNumber
+    liveNumber,
+    replyCommentsDialog
   }
 }
 
-export const useSendBarrage = async (text: Ref<string>, dpaler: DPlayer, userStore: any, videoInfo: UnwrapNestedRefs<VideoInfo>) => {
-  const res = await sendVideoBarrage(<sendVideoBarrageReq>{
+export const useSendBarrage = async (text: Ref<string>, dpaler: DPlayer, userStore: any, videoInfo: UnwrapNestedRefs<VideoInfo>, socket: WebSocket) => {
+  const res = await sendVideoBarrage(<SendVideoBarrageReq>{
     author: userStore.userInfoData.username,
     color: 16777215,
     id: videoInfo.videoInfo.id.toString(),
@@ -64,6 +71,13 @@ export const useSendBarrage = async (text: Ref<string>, dpaler: DPlayer, userSto
   dpaler.danmaku.draw(danmaku);
 
   text.value = ""
+
+  let data = JSON.stringify({
+    type: "sendBarrage",
+    data: ""
+  })
+  socket.send(data)
+
 }
 
 export const useInit = async (videoRef: Ref, route: RouteLocationNormalizedLoaded, Router: Router, videoID: Ref<Number>, videoInfo: UnwrapNestedRefs<VideoInfo>) => {
@@ -90,7 +104,7 @@ export const useInit = async (videoRef: Ref, route: RouteLocationNormalizedLoade
     videoInfo.recommendList = vinfo.data.recommendList
 
     //获取视频弹幕信息
-    const barrageList = await getVideoBarrageList(<getVideoBarrageListReq>{
+    const barrageList = await getVideoBarrageList(<GetVideoBarrageListReq>{
       id: videoID.value.toString()
     })
     if (!barrageList.data) return false
@@ -138,6 +152,9 @@ export const useWebSocket = (userStore: any, videoInfo: UnwrapNestedRefs<VideoIn
       case "numberOfViewers":
         numberOfViewers(liveNumber, data.data.people)
         break;
+      case "responseBarrageNum":
+        responseBarrageNum(videoInfo)
+        break;
     }
   }
 
@@ -152,7 +169,7 @@ export const useWebSocket = (userStore: any, videoInfo: UnwrapNestedRefs<VideoIn
     return
   } else {
     // 实例化socket
-    socket = new WebSocket(import.meta.env.VITE_SOCKET_URL + "/ws/videoSocket?token=" + userStore.userInfoData.token + "&videoID =" + videoInfo.videoInfo.id)
+    socket = new WebSocket(import.meta.env.VITE_SOCKET_URL + "/ws/videoSocket?token=" + userStore.userInfoData.token + "&videoID=" + videoInfo.videoInfo.id)
     // 监听socket连接
     socket.onopen = open
     // 监听socket错误信息

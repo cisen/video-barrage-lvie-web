@@ -21,6 +21,16 @@ const routes = [
         component: () => import('@/views/home/home.vue')
     },
     {
+        path: '/column',
+        name: 'Column',
+        meta: {
+          title: '专栏',
+          requireAuth: false,
+          keepAlive: false
+        },
+        component: () => import('@/views/home/column.vue')
+    },
+    {
         path: "/",
         name: "Index",
         component: () => import('@/views/Layout.vue'),

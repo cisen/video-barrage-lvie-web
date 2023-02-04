@@ -72,7 +72,7 @@ export const useWebSocket = (dp: DPlayer, userStore: any, sideRef: Ref<any>, roo
       return
     } else {
       // 实例化socket
-      socket = new WebSocket( import.meta.env.VITE_SOCKET_URL + "ws/liveSocket?token=" +  userStore.userInfoData.token + "&liveRoom=" + roomID.value)
+      socket = new WebSocket( import.meta.env.VITE_SOCKET_URL + "/ws/liveSocket?token=" +  userStore.userInfoData.token + "&liveRoom=" + roomID.value)
       // 监听socket连接
       socket.onopen = open
       // 监听socket错误信息
