@@ -56,6 +56,7 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Side: typeof import('./src/components/LiveBroadcast/side.vue')['default']
+    SideCard: typeof import('./src/components/columnBroadcast/sideCard.vue')['default']
     SvgIcon: typeof import('./src/components/SvgIcon/index.vue')['default']
     TopNavigation: typeof import('./src/components/creationTopNavigation/topNavigation.vue')['default']
     VideoCommentPosting: typeof import('./src/components/commentPosting/videoCommentPosting.vue')['default']
