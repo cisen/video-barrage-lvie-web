@@ -15,6 +15,7 @@
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.7",
     "dplayer": "^1.27.0",
+    "easy-typer-js": "^2.1.0",
     "element-plus": "^2.2.19",
     "file-to-array-buffer": "^1.0.0",
     "flv.js": "^1.6.2",
