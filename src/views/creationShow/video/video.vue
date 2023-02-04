@@ -38,10 +38,11 @@
                     </div>
                 </div>
                 <div class="video-box">
-                    <div ref="videoRef" class="player" id="dplay" />
+                    <div ref="videoRef" :class="{'player' : true ,'dplayer-comment-show': !userStore.userInfoData.token }" id="dplay" />
                     <div class="video-sending">
                         <div class="live-info">
-                            <span>{{ liveNumber }} 人正在看</span> , <span> 已装填 {{ videoInfo?.videoInfo?.barrageNumber }} 条弹幕 </span>
+                            <span>{{ liveNumber }} 人正在看</span> , <span> 已装填 {{ videoInfo?.videoInfo?.barrageNumber }}
+                                条弹幕 </span>
                         </div>
                         <div class="barrage-set">
                             <SvgIcon name="barrageOn" class="barrage-icon" color="#61666D"></SvgIcon>
@@ -68,6 +69,78 @@
                 <!-- 视频介绍 -->
                 <videoIntroduce :introduce="videoInfo?.videoInfo?.introduce" :label="videoInfo?.videoInfo?.label">
                 </videoIntroduce>
+
+                <!-- 视频评论 -->
+                <div class="comments-box">
+                    <div class="comments-main">
+                        <commentPosting :videoID="videoInfo?.videoInfo?.id" :commentsID="0"
+                            @updateVideoInfo="updateVideoInfo"></commentPosting>
+                    </div>
+
+                    <div class="comments-show">
+                        <div class="comments-show-titel"><span>Comments | </span> <span>{{
+                            videoInfo?.videoInfo?.comments.length
+                        }} 条评论</span>
+                        </div>
+                        <div class="comments-show-info">
+                        <div class="comment-info-detail-box" v-for="commentsItem in videoInfo?.videoInfo?.comments"
+                                :key="commentsItem.id">
+                         <div class="comment-info-detail" >
+                                <el-avatar :size="36" :src="commentsItem.photo" />
+                                <div class="comment-info-content">
+                                    <div class="content-head">
+                                        <div> <span class="comment-info-username">{{ commentsItem.username }}</span>
+                                            <span class="comment-info-other">{{
+                                                dayjs(commentsItem.created_at).format('YYYY.MM.DD.hh.mm')
+                                            }}</span>
+                                        </div>
+                                        <div class="commentInfo-reply">
+                                            <el-button type="primary" v-removeFocus round size="small"
+                                                @click="replyComments(commentsItem.id)">回复</el-button>
+                                        </div>
+                                    </div>
+                                    <!-- 评论内容部分 -->
+                                    <div class="content-info">
+                                        {{ commentsItem.context }}
+                                    </div>
+                                    <!-- 子评论 -->
+                                    <div class="comment-info-detail-child" v-for="lowerComments in commentsItem.lowerComments"
+                                        :key="lowerComments.id">
+                                        <el-avatar :size="36" :src="lowerComments.photo" />
+                                        <div class="comment-info-content">
+                                            <div class="content-head">
+                                                <div> <span class="comment-info-username">{{
+                                                    lowerComments.username
+                                                }}</span> <span class="comment-info-other">{{ dayjs(lowerComments.created_at).format('YYYY.MM.DD.hh.mm')}}</span>
+                                                </div>
+                                                <div class="commentInfo-reply">
+                                                    <el-tag effect="dark" round v-removeFocus
+                                                        @click="replyComments(lowerComments.id)">
+                                                        回复
+                                                    </el-tag>
+                                                </div>
+                                            </div>
+                                            <!-- 评论内容部分 -->
+                                            <div class="content-info">
+                                                <span v-if="lowerComments.comment_user_id != commentsItem.uid"><span
+                                                        class="at-user">@{{
+                                                            lowerComments.comment_user_name
+                                                        }} </span> : </span> {{ lowerComments.context }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="comment-partition"></div>
+                        </div>
+                        </div>
+                    </div>
+                    <!-- 回复评论  dialog-->
+                    <el-dialog v-model="replyCommentsDialog.show" title="Shipping address">
+                        <commentPosting :videoID="videoInfo.videoInfo.id" @updateVideoInfo="updateVideoInfo"
+                            :commentsID="replyCommentsDialog.commentsID"></commentPosting>
+                    </el-dialog>
+                </div>
             </div>
 
             <!-- 右边部分 -->
@@ -118,7 +191,6 @@
                             </el-table-column>
                             <el-table-column prop="text" label="弹幕内容" width="260">
                                 <template #default="scope">
-
                                     <VueEllipsis3 :text="scope.row.text">
                                         <template v-slot:ellipsisNode>
                                             <span>...</span>
@@ -152,7 +224,7 @@
 <script lang="ts" setup>
 import { VueEllipsis3 } from 'vue-ellipsis-3';
 import topNavigation from "@/components/topNavigation/topNavigation.vue"
-import { useInit, useVideoProp ,useSendBarrage , useWebSocket } from "@/hooks/creationShow/video/useVideo";
+import { useInit, useVideoProp, useSendBarrage, useWebSocket } from "@/hooks/creationShow/video/useVideo";
 import DPlayer from "dplayer";
 import { onMounted, onUnmounted, reactive, ref } from "vue";
 import { Position, Warning, Star, Plus, House } from '@element-plus/icons-vue'
@@ -160,9 +232,12 @@ import { vRemoveFocus } from "@/utils/customInstruction/focus"
 import Card from "@/components/videoPageVideoCard/videoPageVideoCard.vue"
 import videoIntroduce from "@/components/videoIntroduce/videoIntroduce.vue"
 import { rFC3339ToTime, formattingSecondTime } from "@/utils/conversion/timeConversion"
+import commentPosting from "@/components/commentPosting/videoCommentPosting.vue"
 import dayjs from 'dayjs';
+import { GetVideoCommentRes } from '@/types/creationShow/video/video';
 
 components: {
+    commentPosting
     topNavigation
     Card
     videoIntroduce
@@ -170,21 +245,36 @@ components: {
 }
 
 var dp: DPlayer //播放器配置对象
-var socket : WebSocket | undefined //socket
-const { videoRef, route, router, userStore, videoID, videoInfo, barrageInput,barrageListShow ,liveNumber} = useVideoProp()
+var socket: WebSocket //socket
+const { videoRef, route, router, userStore, videoID, videoInfo, barrageInput, barrageListShow, liveNumber, replyCommentsDialog } = useVideoProp()
 
-const sendBarrageEvent = () =>{
-    useSendBarrage(barrageInput,dp,userStore,videoInfo)
+const sendBarrageEvent = () => {
+    useSendBarrage(barrageInput, dp, userStore, videoInfo, socket)
 }
 
+//回复二级评论
+const replyComments = (commentsID: number) => {
+    replyCommentsDialog.commentsID = commentsID
+    replyCommentsDialog.show = !replyCommentsDialog.show
+}
+
+//更新评论数据
+const updateVideoInfo = (commentsList: GetVideoCommentRes) => {
+    videoInfo.videoInfo.comments = commentsList.comments
+    videoInfo.videoInfo.comments_number = commentsList.comments_number
+}
+
+
+
 onMounted(async () => {
-    dp = await useInit(videoRef, route, router, videoID, videoInfo ) as DPlayer
-    if(userStore.userInfoData.token){
-        socket = useWebSocket(userStore, videoInfo, router, liveNumber)
+    dp = await useInit(videoRef, route, router, videoID, videoInfo) as DPlayer
+    if (userStore.userInfoData.token) {
+        let socketLer = useWebSocket(userStore, videoInfo, router, liveNumber)
+        socketLer ? socket = socketLer : ""
     }
 })
 
-onUnmounted(() =>{
+onUnmounted(() => {
     socket?.close()
 })
 

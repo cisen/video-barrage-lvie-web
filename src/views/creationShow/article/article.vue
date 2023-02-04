@@ -36,7 +36,6 @@
     </div>
     <!-- 文章内容 -->
     <div class="article-content">
-
       <div class="content">
         <!-- 其他 ql-container ql-snow -->
         <div class="ql-editor" v-html="articleInfo.content">
@@ -105,7 +104,6 @@
           <commentPosting :articleID="articleID" :articleInfo="articleInfo" @updateArticleInfo="updateArticleInfo"
             :commentsID="replyCommentsDialog.commentsID"></commentPosting>
         </el-dialog>
-
       </div>
     </div>
   </div>
@@ -137,12 +135,13 @@ components: {
 
 const { articleID, articleInfo, router, route, replyCommentsDialog } = useArticleShowProp()
 
+//更新评论数据
 const updateArticleInfo = (commentsList: GetArticleCommentRes) => {
-  //得到的数据
   articleInfo.value.comments = commentsList.comments
   articleInfo.value.comments_number = commentsList.comments_number
 }
 
+//回复二级评论
 const replyComments = (commentsID: number) => {
   replyCommentsDialog.commentsID = commentsID
   replyCommentsDialog.show = !replyCommentsDialog.show
