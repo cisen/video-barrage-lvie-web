@@ -1,7 +1,7 @@
 import { AreateArticleContributionReq, GetArticleContributionListByUserReq } from "@/types/creation/contribute/contributePage/articleContribution";
 import { createVideoContributionReq } from "@/types/creation/contribute/contributePage/vdeoContribution";
 import { ArticlePostCommentReq, GetArticleCommentReq, GetArticleCommentRes, GetArticleContributionByIDReq, GetArticleContributionByIDRes } from "@/types/creationShow/article/article";
-import { GetVideoContributionByIDReq, GetVideoContributionByIDRes, getVideoBarrageListReq, getVideoBarrageListRes, sendVideoBarrageReq } from "@/types/creationShow/video/video";
+import { GetVideoContributionByIDReq, GetVideoContributionByIDRes, VideoPostCommentReq, GetVideoBarrageListReq, GetVideoBarrageListRes, SendVideoBarrageReq, GetVideoCommentReq, GetVideoCommentRes } from "@/types/creationShow/video/video";
 import { GetArticleContributionListByUserRes } from "@/types/live/liveRoom";
 import httpRequest from "@/utils/requst"
 
@@ -45,11 +45,21 @@ export const getVideoContributionByID = (params: GetVideoContributionByIDReq) =>
 export const danmakuApi = import.meta.env.VITE_BASE_URL + '/contribution/video/barrage/'
 
 //获取视弹幕列表
-export const getVideoBarrageList = (params: getVideoBarrageListReq) => {
-    return httpRequest.get<getVideoBarrageListRes>('/contribution/getVideoBarrageList', params);
+export const getVideoBarrageList = (params: GetVideoBarrageListReq) => {
+    return httpRequest.get<GetVideoBarrageListRes>('/contribution/getVideoBarrageList', params);
 }
 
 //获取视弹幕列表
-export const sendVideoBarrage = (params: sendVideoBarrageReq) => {
+export const sendVideoBarrage = (params: SendVideoBarrageReq) => {
     return httpRequest.post('/contribution/video/barrage/v3/', params);
+}
+
+//文章发布评论
+export const videoPostComment = (params: VideoPostCommentReq) => {
+    return httpRequest.post('/contribution/videoPostComment', params);
+}
+
+//单独获取视频评论
+export const getVideoComment = (params: GetVideoCommentReq) => {
+    return httpRequest.post<GetVideoCommentRes>('/contribution/getVideoComment', params);
 }
