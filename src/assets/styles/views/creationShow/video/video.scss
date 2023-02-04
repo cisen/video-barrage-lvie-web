@@ -70,7 +70,11 @@
                     height: 76vh;
 
                 }
-
+                .dplayer-comment-show{
+                    :deep(.dplayer-comment){
+                        display: none;
+                    }
+                }
                 .video-sending {
                     margin: 0 8px 0 8px;
                     height: 56px;
@@ -113,6 +117,102 @@
                         }
                     }
 
+                }
+            }
+
+            .comments-box {
+                padding: 12px 15px;
+
+                .comments-head {
+                    display: flex;
+                    align-items: center;
+                    color: #3f9eff;
+                    font-size: 28px;
+
+
+                    .icon-edit {
+                        width: 30px;
+                        height: 30px;
+                        margin-right: 6px;
+                    }
+                }
+
+                .comments-main {
+                    margin-top: 14px;
+                }
+
+                .comments-show {
+                    padding-top: 30px;
+
+                    .comments-show-titel {
+                        color: #797979;
+                        font-size: 18px;
+                    }
+
+                    .comments-show-info {
+                        padding-top: 20px;
+
+                        .comment-info-detail-box {
+                            margin-top: 10px;
+
+                            .comment-info-detail {
+                                display: flex;
+                                width: 100%;
+
+                                .comment-info-content {
+                                    padding-left: 14px;
+                                    width: 100%;
+
+                                    .content-head {
+                                        width: 100%;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: space-between;
+
+                                        .comment-info-username {
+                                            color: $color-theme;
+                                            ;
+                                            font-size: 14px;
+                                            font-weight: 200;
+                                            margin-right: 5px;
+                                        }
+
+                                        .comment-info-other {
+                                            font-size: 12px;
+                                            color: #797979;
+                                        }
+                                    }
+
+                                    .content-info {
+                                        margin: 8px 0 14px;
+                                        padding: 6px 20px;
+                                        border-radius: 12px;
+                                        color: #000;
+                                        word-break: break-word;
+
+
+                                        .at-user {
+                                            color: #03a9f4;
+                                        }
+                                    }
+
+                                    //评论的子评论
+                                    .comment-info-detail-child {
+                                        display: flex;
+                                        width: 100%;
+                                    }
+
+
+                                }
+                            }
+
+                             //分割先
+                             .comment-partition {
+                                border-bottom: 1px solid #E3E5E7;
+                            }
+
+                        }
+                    }
                 }
             }
 
@@ -221,13 +321,13 @@
                     height: 700px;
                     overflow: scroll;
 
-                    :deep(.el-table--fit){
+                    :deep(.el-table--fit) {
                         font-size: 12px;
                     }
-                    
+
                 }
 
-                .recommend-lsit{
+                .recommend-lsit {
                     margin-top: 14px;
                 }
             }
